@@ -27,11 +27,24 @@
             display: flex;
             flex-direction: column;
         }
+        .video-container{
+            position: relative;
+            width: 100%;
+            padding-top: 50%; /* 16:8 aspect ratio (height/width * 100) */
+            overflow: hidden;
+        }
+        .video-container video{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width :100%;
+            height: 100%;
+        }
 
         /* Header Section */
         .chat-header {
-            padding: 15px;
-            background-color: #4caf50;
+            padding: 5px;
+            background-color: #800080;
             color: white;
             text-align: center;
             font-size: 1.2rem;
@@ -94,8 +107,8 @@
         }
 
         .message-container.me .message-bubble {
-            background-color: #28b463;
-            color: white;
+            background-color: #D8BFD8;
+            color: black;
             text-align: left;
         }
 
@@ -104,23 +117,17 @@
             color: #000;
             text-align: left;
         }
-
-        /* Username */
         .username {
             font-size: 0.9rem;
             font-weight: bold;
             color: #7b7d7d;
         }
-
-        /* Timestamp */
         .message-timestamp {
             font-size: 0.75rem;
             color: gray;
             margin-top: 5px;
             text-align: right;
         }
-
-        /* Input Section */
         .chat-input {
             display: flex;
             align-items: center;
@@ -129,7 +136,6 @@
             border-top: 1px solid #ccc;
             gap: 5px;
         }
-
         .chat-input textarea {
             flex: 1;
             resize: none;
@@ -141,7 +147,6 @@
             outline: none;
             background-color: #f9f9f9;
         }
-
         .chat-input button {
             background-color: #075E54;
             color: white;
@@ -152,7 +157,6 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .chat-input button:hover {
             background-color: #004d36;
         }
@@ -176,7 +180,7 @@
         #send-btn {
             width: 50px;
             height: 50px;
-            background-color: #0095f6;
+            background-color: #E0B0FF;
             border: none;
             border-radius: 50%;
             display: flex;
@@ -187,7 +191,7 @@
         }
 
         #send-btn:hover {
-            background-color: #007bb5;
+            background-color: #D8BFD8;
         }
         #send-btn img {
             width: 30px;
@@ -196,7 +200,7 @@
         #shareBtn{
             width: 50px;
             height: 50px;
-            background-color: #0095f6;
+            background-color: #E0B0FF;
             border: none;
             border-radius: 50%;
             display: flex;
@@ -207,7 +211,7 @@
         }
 
         #shareBtn:hover {
-            background-color: #007bb5;
+            background-color: #D8BFD8;
         }
         #shareBtn img {
             width: 25px;
@@ -216,7 +220,7 @@
          #file-btn {
             width: 50px;
             height: 50px;
-            background-color: #0095f6;
+            background-color: #E0B0FF;
             border: none;
             border-radius: 50%;
             display: flex;
@@ -227,9 +231,29 @@
         }
 
         #file-btn:hover {
-            background-color: #007bb5;
+            background-color: #D8BFD8;
         }
         #file-btn img {
+            width: 25px;
+            height: 25px;
+        }
+        #avatar-pic {
+            width: 50px;
+            height: 50px;
+            background-color:#E6E6FA;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #avatar-pic:hover {
+            background-color: #D8BFD8;
+        }
+        #avatar-pic img {
             width: 25px;
             height: 25px;
         }
@@ -258,20 +282,17 @@
 <body>
 <div class="container">
     <div class="chat-container">
-        <div class="chat-header">Chat Room</div>
+        <div class="chat-header"><h3 style="font-family: Georgia, serif; text-align: left; padding: 5px; margin: 5px;">{{ recipient.username }}</h3>
+        </div>
         <div class="messages" id="chat-messages">
             {% for message in messages %}
                 <div class="message-container {% if message.sender.username == user.username %}me{% else %}other{% endif %}">
                     {% if message.sender.username != user.username %}
-                        <div class="avatar"></div>
+                        <div class="avatar" id="avatar-pic"><img src="https://img.icons8.com/?size=100&id=nSR7D8Yb2tjC&format=png&color=000000" alt="AV"></div>
                     {% endif %}
                     <div class="message-bubble">
                         <div class="username">{{ message.sender.username }}</div>
                         <div class="message-content">{{ message.content }}</div>
-                        {% if message.file %}
-                            <a href="{{ message.file.url }}" download>Download File</a>
-                            <img src="{{ message.file.url }}" style="max-width: 200px; background-color: white">
-                        {% endif %}
                         <div class="message-timestamp">{{ message.timestamp|date:"H:i" }}</div>
                     </div>
                     <div class="options" id="options-{{ message.id }}">
@@ -283,9 +304,6 @@
 
         <!-- Chat Input Section -->
         <div class="chat-input">
-            <button id="file-btn">
-                <img src="https://img.icons8.com/?size=100&id=11&format=png&color=000000" alt="send files">
-            <input type="file" id="file-input" style="display:none" accept="image/*, .pdf, .docx, .zip, .png, .jpg"></button>
             <input type="text" id="message-input" placeholder="Type your message...">
             <button id="send-btn">
                 <img src="https://img.icons8.com/?size=100&id=2837&format=png&color=000000" alt="send">
@@ -296,103 +314,117 @@
         </div>
     </div>
 </div>
-<div class="chat-container" style="height: 100%, width: 100%">
+<div class="video-container">
     <div class="screen-share-container">
         <video id="localVideo" autoplay></video>
         <video id="remoteVideo" autoplay></video>
-        </div>
+    </div>
 </div>
     <script>
-const localVideo = document.getElementById('localVideo');
-const remoteVideo = document.getElementById('remoteVideo');
-const shareBtn = document.getElementById('shareBtn');
-const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
-const shareSocket = new WebSocket(wsScheme + '://' + window.location.host + '/ws/screenshare/');
-let localStream, peerConnection;
-const config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
-shareSocket.onopen = () => console.log('✅ WebSocket connection opened');
-shareSocket.onerror = error => console.error('❌ WebSocket error:', error);
-shareSocket.onclose = () => console.log('⚠️ WebSocket connection closed');
-shareBtn.onclick = async () => {
-    try {        console.log('🎥 Requesting display media...');
-        localStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-        console.log('✅ Display media obtained:', localStream);
-        localVideo.srcObject = localStream;
-        peerConnection = new RTCPeerConnection(config);
-        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-        peerConnection.onicecandidate = event => {
-            if (event.candidate) {
-                console.log('📡 Sending ICE candidate:', event.candidate);
-                shareSocket.send(JSON.stringify({ 'candidate': event.candidate }));
-            }
-        };
-        peerConnection.ontrack = event => {
-            console.log('🎬 Received remote stream:', event.streams[0]);
-            remoteVideo.srcObject = event.streams[0];
-            remoteVideo.onloadedmetadata = () => {
-                remoteVideo.play();
-            };
-        };
-        const offer = await peerConnection.createOffer();
-        await peerConnection.setLocalDescription(offer);
-        console.log('📩 Sending offer:', offer);
-        shareSocket.send(JSON.stringify({ 'offer': offer }));
-    } catch (error) {
-        console.error('❌ Error accessing display media:', error);
-        alert('Error accessing display media. Please check your device and permissions.');
-    }
-};
-shareSocket.onmessage = async event => {
-    const data = JSON.parse(event.data);
-    console.log('📥 Received WebSocket message:', data);
-    if (data.answer) {
-        console.log('✅ Setting remote description with answer:', data.answer);
-        if (peerConnection) {
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
-        } else {
-            console.error('❌ No peer connection found!');
-        }
-    } else if (data.offer) {
-        console.log('📩 Received offer:', data.offer);
-        peerConnection = new RTCPeerConnection(config);
-        peerConnection.onicecandidate = event => {
-            if (event.candidate) {
-                console.log('📡 Sending ICE candidate:', event.candidate);
-                shareSocket.send(JSON.stringify({ 'candidate': event.candidate }));
-            }
-        };
-        peerConnection.ontrack = event => {
-            console.log('🎬 Received remote stream:', event.streams[0]);
-            remoteVideo.srcObject = event.streams[0];
-        };
-        await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
-        console.log('✅ Remote description set successfully');
-        localStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        localVideo.srcObject = localStream;
-        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-        const answer = await peerConnection.createAnswer();
-        await peerConnection.setLocalDescription(answer);
-        console.log('📩 Sending answer:', answer);
-        shareSocket.send(JSON.stringify({ 'answer': answer }));
-    } else if (data.candidate) {
-        try {
-            console.log('🔄 Adding ICE candidate:', data.candidate);
-            await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
-        } catch (error) {
-            console.error('❌ Error adding ICE candidate:', error);
-        }
-    }
-};
-if (peerConnection) {
-    peerConnection.oniceconnectionstatechange = () => {
-        console.log('🔄 ICE Connection State:', peerConnection.iceConnectionState);
-    };
-    peerConnection.onconnectionstatechange = () => {
-        console.log('🔄 Peer Connection State:', peerConnection.connectionState);
-    };
-}
 
+    const localVideo = document.getElementById('localVideo');
+    const remoteVideo = document.getElementById('remoteVideo');
+    const shareBtn = document.getElementById('shareBtn');
+    const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
+    const shareSocket = new WebSocket(wsScheme + '://' + window.location.host + '/ws/screenshare/');
+    let localStream, peerConnection;
+    const config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+
+    shareSocket.onopen = () => console.log('✅ WebSocket connection opened');
+    shareSocket.onerror = error => console.error('❌ WebSocket error:', error);
+    shareSocket.onclose = () => console.log('⚠️ WebSocket connection closed');
+
+    shareBtn.onclick = async () => {
+        try {
+            console.log('🎥 Requesting display media...');
+            localStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+            console.log('✅ Display media obtained:', localStream);
+            localVideo.srcObject = localStream;
+
+            peerConnection = new RTCPeerConnection(config);
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    console.log('📡 Sending ICE candidate:', event.candidate);
+                    shareSocket.send(JSON.stringify({ 'candidate': event.candidate }));
+                }
+            };
+
+            peerConnection.ontrack = event => {
+                console.log('🎬 Received remote stream:', event.streams[0]);
+                remoteVideo.srcObject = event.streams[0];
+                remoteVideo.onloadedmetadata = () => {
+                    remoteVideo.play();
+                };
+            };
+
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            console.log('📩 Sending offer:', offer);
+            shareSocket.send(JSON.stringify({ 'offer': offer }));
+        } catch (error) {
+            console.error('❌ Error accessing display media:', error);
+            alert('Error accessing display media. Please check your device and permissions.');
+        }
+    };
+
+    shareSocket.onmessage = async event => {
+        const data = JSON.parse(event.data);
+        console.log('📥 Received WebSocket message:', data);
+        if (data.answer) {
+            console.log('✅ Setting remote description with answer:', data.answer);
+            if (peerConnection) {
+                await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+            } else {
+                console.error('❌ No peer connection found!');
+            }
+        } else if (data.offer) {
+            console.log('📩 Received offer:', data.offer);
+            peerConnection = new RTCPeerConnection(config);
+
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    console.log('📡 Sending ICE candidate:', event.candidate);
+                    shareSocket.send(JSON.stringify({ 'candidate': event.candidate }));
+                }
+            };
+
+            peerConnection.ontrack = event => {
+                console.log('🎬 Received remote stream:', event.streams[0]);
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+            console.log('✅ Remote description set successfully');
+            localStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            localVideo.srcObject = localStream;
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            console.log('📩 Sending answer:', answer);
+            shareSocket.send(JSON.stringify({ 'answer': answer }));
+        } else if (data.candidate) {
+            try {
+                console.log('🔄 Adding ICE candidate:', data.candidate);
+                await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+            } catch (error) {
+                console.error('❌ Error adding ICE candidate:', error);
+            }
+        }
+    };
+
+    if (peerConnection) {
+        peerConnection.oniceconnectionstatechange = () => {
+            console.log('🔄 ICE Connection State:', peerConnection.iceConnectionState);
+        };
+        peerConnection.onconnectionstatechange = () => {
+            console.log('🔄 Peer Connection State:', peerConnection.connectionState);
+        };
+    }
     const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/chat/{{ user.username }}/{{ recipient.username }}/');
+
     document.getElementById('send-btn').onclick = sendMessage;
     document.getElementById('message-input').addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
@@ -403,109 +435,73 @@ if (peerConnection) {
     function sendMessage() {
         const messageInput = document.getElementById('message-input');
         const message = messageInput.value.trim();
+        if (!message) return;
+
         console.log('Sending message:', message);
-        chatSocket.send(JSON.stringify({
-        'message': message,
-        'recipient': "{{ user.username }}"
-        }));
+        chatSocket.send(JSON.stringify({ 'message': message }));
         messageInput.value = '';
     }
-
     chatSocket.onmessage = event => {
-        console.log('Received WebSocket message:', event.data);
         const data = JSON.parse(event.data);
-        renderMessage(data);
-        };
-        function renderMessage(data) {
-            const chatMessages = document.getElementById('chat-messages');
-            const newMessage = `
-                <div class="message-container ${data.sender === "{{ user.username }}" ? 'me' : 'other'}" id="message-${data.id}" onclick="handleTap(${data.id})">
-                    ${data.sender !== "{{ user.username }}" ? '<div class="avatar"></div>' : ''}
-                    <div class="message-bubble">
-                        <div class="username">${data.sender}</div>
-                        <div class="message-content">${data.message}</div>
-                        <div class="message-timestamp">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
-                    </div>
-                    <div class="options" id="options-${data.id}">
-                        <button onclick="deleteMessage(${data.id})">Delete</button>
-                        <button onclick="copyMessage('${data.message}')">Copy</button>
-                    </div>
-                </div>`;
-                chatMessages.insertAdjacentHTML('beforeend', newMessage);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-
+        if (data.error) {
+            console.error('Error from server:', data.error);
+        } else {
+            renderMessage(data);
         }
+    };
+
+    function renderMessage(data) {
+        const chatMessages = document.getElementById('chat-messages');
+        const newMessage = `
+            <div class="message-container ${data.sender === "{{ user.username }}" ? 'me' : 'other'}" id="message-${data.id}" onclick="handleTap(${data.id})">
+                ${data.sender !== "{{ user.username }}" ? '<div class="avatar" id="avatar-pic"><img src="https://img.icons8.com/?size=100&id=nSR7D8Yb2tjC&format=png&color=000000" alt="AV"></div>' : ''}
+                <div class="message-bubble">
+                <div class="username">${data.sender}</div>
+                ${data.message ? `<div class="message-content">${data.message}</div>` : ''}
+                ${data.file_url ? `<a href="${data.file_url}" download>Download File</a><img src="${data.file_url}" style="max-width: 200px; background-color: white">` : ''}
+                <div class="message-timestamp">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+            </div>
+                <div class="options" id="options-${data.id}">
+                    <button onclick="copyMessage('${data.message || ''}')">Copy</button>
+                </div>
+            </div>`;
+        chatMessages.insertAdjacentHTML('beforeend', newMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
     chatSocket.onopen = () => {
         console.log('WebSocket connection established');
     };
+
+    chatSocket.onclose = event => {
+        console.error('Chat socket closed unexpectedly', event);
+    };
+
     function handleTap(messageId) {
-    console.log('Tapped message with ID:', messageId);
-    location.reload(true);
-    const options = document.getElementById(`options-${messageId}`);
+        console.log('Tapped message with ID:', messageId);
+        const options = document.getElementById(`options-${messageId}`);
         if (options) {
-        const currentDisplay = window.getComputedStyle(options).display;
-        if (currentDisplay === 'none' || currentDisplay === '') {
-            options.style.display = 'block';
-        } else {
-            options.style.display = 'none';
-        }
-    } else {
-        console.error(`Options element with ID options-${messageId} not found.`);
-    }
-}
-    function copyMessage(messageContent) {
-            console.log('Copying message:', messageContent);
-            navigator.clipboard.writeText(messageContent).then(() => {
-                console.log('Message copied to clipboard');
-            }).catch(err => {
-                console.error('Failed to copy message: ', err);
-            });
-    }
-    const notificationSocket = new WebSocket('ws://' + window.location.host + '/ws/notifications/');
-
-    notificationSocket.onmessage = event => {
-        const data = JSON.parse(event.data);
-        if (data.type === 'notification') {
-            alert(`New message from ${data.sender}: ${data.message}`);
-        }
-    };
-
-    notificationSocket.onclose = event => {
-        console.error('Notification socket closed unexpectedly', event);
-    };
-
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+            const currentDisplay = window.getComputedStyle(options).display;
+            if (currentDisplay === 'none' || currentDisplay === '') {
+                options.style.display = 'block';
+            } else {
+                options.style.display = 'none';
             }
+        } else {
+            console.error(`Options element with ID options-${messageId} not found.`);
         }
-        return cookieValue;
     }
-        document.getElementById('file-btn').onclick = () => document.getElementById('file-input').click();
 
-        document.getElementById('file-input').onchange = event => {
-            const file = event.target.files[0];
-            if (!file) return;
+    function copyMessage(messageContent) {
+        console.log('Copying message:', messageContent);
+        navigator.clipboard.writeText(messageContent).then(() => {
+            console.log('Message copied to clipboard');
+        }).catch(err => {
+            console.error('Failed to copy message:', err);
+        });
+    }
 
-            const formData = new FormData();
-            formData.append('file', file);
 
-            fetch('/upload-file/', { method: 'POST', body: formData })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.file_url) {
-                        chatSocket.send(JSON.stringify({ 'file_url': data.file_url, 'username': "{{ user.username }}" }));
-                    }
-                })
-                .catch(error => console.error('File upload failed:', error));
-        };
     </script>
 </body>
 </html>

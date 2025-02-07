@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.storage import FileSystemStorage
 from django.db.models import Q
-from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -10,31 +9,16 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from .models import PrivateMessage, UserStatus
 from django.shortcuts import render
-from django.contrib.auth.models import User
 
-@login_required
-@csrf_exempt
-def delete_message(request, message_id):
-    try:
-        message = get_object_or_404(PrivateMessage, id=message_id, sender=request.user)
-        if message.is_deleted:
-            return JsonResponse({'error': 'Message already deleted'}, status=400)
-        message.is_deleted = True
-        message.save()
-        return JsonResponse({'status': 'success'}, status=200)
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
 
 class LoginRedirectView(LoginRequiredMixin, View):
     def get(self, request):
-        # Redirect superusers to the 'superuser_users.html' page and others to 'regularuser_users.html'
         if request.user.is_superuser:
             return redirect('users')  # Adjust the redirect URL for superusers
         else:
             return redirect('other_users')
 
 def login_view(request):
-
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -44,7 +28,6 @@ def login_view(request):
             return redirect('users')
         else:
             return render(request, 'chat/login.html', {'error': 'Invalid credentials'})
-
     return render(request, 'chat/login.html')
 
 def signup_view(request):
@@ -69,7 +52,7 @@ def save_message(request):
             user = User.objects.get(username=username)
             message = PrivateMessage.objects.create(
                 user=user,
-                sender=request.user,  # Add sender
+                sender=request.user,
                 content=message_content
             )
             return JsonResponse({'status': 'success', 'message_id': message.id}, status=200)
@@ -83,15 +66,15 @@ def save_message(request):
 def user_list_view(request):
     users = User.objects.all()
     if request.user.is_superuser:
-        users = User.objects.all()  # All users for superusers
+        users = User.objects.filter(is_superuser=False)
     else:
-        users = User.objects.filter(is_superuser=True)  # Only superusers for regular users
+        users = User.objects.filter(is_superuser=True)
     return render(request, 'chat/users.html', {'users': users})
 
 @login_required
 def chat_view(request, username):
     user = request.user
-    recipient = get_object_or_404(User, username=username)  # Fixed
+    recipient = get_object_or_404(User, username=username)
     messages = PrivateMessage.objects.filter(
         Q(sender=user, recipient=recipient) | Q(sender=recipient, recipient=user)
     ).order_by('timestamp')
@@ -141,3 +124,18 @@ def fetch_new_messages(request, username):
 @login_required
 def screen_share(request):
     return render(request, 'chat.html')
+
+from django.http import JsonResponse
+from django.contrib.auth.models import User
+from .models import PrivateMessage
+
+@login_required
+def fetch_unread_count(request, username):
+    user = request.user
+    recipient = User.objects.get(username=username)
+    unread_count = PrivateMessage.objects.filter(
+        recipient=recipient,
+        is_read=True,
+        deleted=True
+    ).count()
+    return JsonResponse({'unread_count': unread_count})

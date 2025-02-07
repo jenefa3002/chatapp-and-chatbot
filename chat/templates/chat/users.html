@@ -16,7 +16,7 @@
         }
         .chat-header {
             padding: 15px;
-            background-color: #4caf50;
+            background-color: #800080;
             color: white;
             text-align: center;
             font-size: 1.2rem;
@@ -49,68 +49,39 @@
 </head>
 <body>
 <div class="container">
-    <header class="chat-header">Users</header>
+    <header class="chat-header">{{ user.username }}</header>
     <ul class="user-list" id="userList">
         {% for user in users %}
             <li id="user-{{ user.username }}" onclick="startChat('{{ user.username }}')">
-    {{ user.username }}
-    <span class="user-status" data-username="{{ user.username }}">
-        {% if user.status.is_online %}
-            <span style="color: green;">Online</span>
-        {% else %}
-            <span style="color: red;"></span>
-        {% endif %}
-    </span>
-</li>
+                {{ user.username }}
+                 {% if request.user.is_superuser %}
+                <span id="status-{{ user.id }}">
+                    {% if user.is_online %} 🟢 Online {% else %} 🔴 Offline {% endif %}
+                 </span>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 </div>
 
 <script>
+    var socket = new WebSocket(
+        (window.location.protocol === "https:" ? "wss://" : "ws://") +
+        window.location.host + "/ws/online_status/"
+    );
 
-const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
-    function connectSocket() {
-        const socket = new WebSocket(wsProtocol + window.location.host + '/ws/status/');
-
-        socket.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            updateUserStatus(data.username, data.is_online);
-        };
-        socket.onclose = function(event) {
-            console.error('Status socket closed unexpectedly. Reconnecting in 5 seconds...');
-            setTimeout(connectSocket, 5000);
-        };
-    }
-    connectSocket();
-function updateUserStatus(username, isOnline) {
-    const userElement = document.getElementById(`user-${username}`);
-    if (userElement) {
-        const statusElement = userElement.querySelector('.user-status span');
-        if (statusElement) {
-                statusElement.textContent = isOnline ? 'Online' : 'Offline';
-                statusElement.style.color = isOnline ? 'green' : 'red';
-            }
-    } else {
-        console.log(`User element for ${username} not found`);
-    }
-}
-
-function startChat(username) {
-    window.location.href = '/chat/' + username + '/';
-}
-
-const notificationSocket = new WebSocket('ws://' + window.location.host + '/ws/notifications/');
-
-    notificationSocket.onmessage = event => {
-        const data = JSON.parse(event.data);
-        if (data.type === 'notification') {
-            alert(`New message from ${data.sender}: ${data.message}`);
+    socket.onmessage = function(event) {
+        var data = JSON.parse(event.data);
+        var userElement = document.getElementById("status-" + data.user_id);
+        if (userElement) {
+            userElement.innerHTML = data.is_online ? "🟢 Online" : "🔴 Offline";
         }
     };
-
-    notificationSocket.onclose = event => {
-        console.error('Notification socket closed unexpectedly');
-    };
+    function startChat(username) {
+        window.location.href = '/chat/' + username + '/';
+    }
 </script>
 </body>
+
+
 </html>

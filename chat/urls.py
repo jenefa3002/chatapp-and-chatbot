@@ -3,7 +3,6 @@ from . import views
 from .views import  users_view, LoginRedirectView
 
 urlpatterns = [
-    path('delete-message/<int:message_id>/', views.delete_message, name='delete_message'),
     path('users/', views.user_list_view, name='user_list'),
     path('chat/<str:username>/', views.chat_view, name='chat'),
     path('', views.login_view, name='login'),
