@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -104,6 +104,10 @@ SITE_URL = "http://localhost:8000"
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+LOGOUT_REDIRECT_URL = '/'
 ASGI_APPLICATION = 'chat_project.asgi.application'
 CHANNEL_LAYERS = {
     "default": {

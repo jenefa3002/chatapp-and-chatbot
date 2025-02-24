@@ -1,126 +1,96 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <style>
-        /* General Reset */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        /* Sign-Up Container */
-        .signup-container {
-            background-color: #ffffff;
-            width: 100%;
-            max-width: 400px;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Heading */
-        .signup-container h2 {
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 1.8rem;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        /* Form Styling */
-        .signup-container form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        form label {
-            font-size: 0.9rem;
-            color: #555;
-            text-align: left;
-        }
-
-        input[type="text"], input[type="password"], input[type="email"] {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
-            border-color: #4caf50;
-        }
-
-        /* Submit Button */
-        button {
-            width: 100%;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 12px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        /* Link to Login */
-        .signup-container p {
-            margin-top: 15px;
-            font-size: 0.9rem;
-            text-align: center;
-            color: #333;
-        }
-
-        .signup-container a {
-            color: #4caf50;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .signup-container a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 500px) {
-            .signup-container {
-                padding: 20px;
-            }
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://startbootstrap.github.io/startbootstrap-sb-admin-2/css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
-    <div class="signup-container">
-        <h2>Sign Up</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Sign Up</button>
-        </form>
-        <p>Already have an account? <a href="{% url 'login' %}">Log in here</a>.</p>
+
+<body class="bg-gradient-primary d-flex align-items-center justify-content-center vh-100"
+      style="background-image: url('/static/img/bg.png');
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="card o-hidden border-0 shadow-lg">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Create an Account</h1>
+                        </div>
+                        <!-- Django Messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <!-- Username Field -->
+                            <div class="form-group">
+                                <label for="id_username" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    {{ form.username }}
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="id_email" class="form-label">E-mail</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    {{ form.email }}
+                                    <input autocomplete="off" type="email" name="email" id="id_email" class="form-control">
+                                </div>
+                            </div>
+                            <!-- Password Field -->
+                            <div class="form-group mt-3">
+                                <label for="id_password1" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    {{ form.password1 }}
+                                </div>
+                            </div>
+                            <!-- Confirm Password Field -->
+                            <div class="form-group mt-3">
+                                <label for="id_password2" class="form-label">Confirm Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    {{ form.password2 }}
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block mt-4">Sign Up</button>
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="{% url 'login' %}">Already have an account? Log in!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- SB Admin 2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://startbootstrap.github.io/startbootstrap-sb-admin-2/js/sb-admin-2.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let inputs = document.querySelectorAll("input");
+            inputs.forEach(input => {
+                input.classList.add("form-control");
+            });
+        });
+    </script>
+
 </body>
 </html>

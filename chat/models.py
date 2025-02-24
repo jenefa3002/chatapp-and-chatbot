@@ -1,9 +1,10 @@
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 
 class UserStatus(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -28,10 +29,6 @@ class PrivateMessage(models.Model):
     def __str__(self):
         return f"{self.sender.username} -> {self.recipient.username}: {self.content}"
 
-    def mark_as_read(self):
-        self.is_read = True
-        self.save()
-
     def delete_message(self):
         self.is_deleted = True
         self.save()
@@ -51,3 +48,21 @@ class PrivateMessage(models.Model):
 
     def save(self, *args, **kwargs):
         super(PrivateMessage, self).save(*args, **kwargs)
+
+
+@receiver(post_save, sender=PrivateMessage)
+def notify_new_message(sender, instance, created, **kwargs):
+    """Send a WebSocket notification when a new message is received."""
+    if created and not instance.is_read:
+        channel_layer = get_channel_layer()
+        group_name = f"notifications_{instance.recipient.username}"
+
+        async_to_sync(channel_layer.group_send)(
+            group_name,
+            {
+                "type": "notify_new_message",
+                "sender_username": instance.sender.username
+            }
+        )
+
+

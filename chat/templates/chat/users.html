@@ -1,87 +1,1011 @@
 {% load static %}
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>User List</title>
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
-        .container {
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #87CEFA, #B0E0E6);
+            border-radius: 10px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #3757c3, #c08ef0);
+        }
+        .header {
+            position: fixed;
+            top: 0;
             width: 100%;
-            max-width: 500px;
-            margin: 50px auto;
+            background: linear-gradient(135deg, #4e73df, #6cb2eb);
+            color: white;
+            padding: 15px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 1000;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .content {
+            margin-top: 70px; /* Adjust margin to avoid overlap with the fixed header */
+        }
+        body{
+            background-image: url('/static/img/bg.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            }
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            overflow: hidden;
+            padding: 5px;
+        }
+
+        .chat-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: invert(0%);
+        }
+        .chat-panel {
+            font-family: Georgia, serif;
+            position: fixed;
+            top: 175px;
+            right: -350px;
+            width: 350px;
+            height: calc(100% - 50px);
+            max-height:500;
+            background: white;
+            border-radius: 15px;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+            transition: right 0.3s ease-in-out;
+            z-index: 1050;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-panel.active {
+            right: 10px;
+            }
+        .chat-content-panel {
+            display: none;
+            position: fixed;
+            top: 200px;
+            flex: 1;
+            font-size:20px;
+            background: white;
+            height: calc(100% - 70px);
+            max-height: 500px;
+            width: 350px;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            transition: right 0.3s ease-in-out;
+        }
+        .chat-content-panel.active {
+             display: block;
+        }
+        .chat-container2 {
+            width: 100%;
+            top: 0;
+            height:400px;
+            max-height:400px;
+            margin: 10;
+            flex-grow: 1;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             display: flex;
+            overflow-y: auto;
             flex-direction: column;
+        }
+        .video-container{
+            position: relative;
+            width: 100%;
+            padding-top: 50%;
+            overflow: hidden;
+        }
+        .video-container video{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width :100%;
+            height: 100%;
         }
         .chat-header {
-            padding: 15px;
-            background-color: #800080;
+            font-family: Georgia, serif;
+            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            display: flex;
+            justify-content: space-between;
             color: white;
-            text-align: center;
-            font-size: 1.2rem;
+            padding: 18px 20px;
+            align-items: center;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
             font-weight: bold;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
-        .user-list {
+
+        .chat-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-family: Georgia, serif;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .chat-header button:hover {
+            color: #ffcc00;
+        }
+        .chat-list {
+            list-style: none;
+            font-family: Georgia, serif;
+            padding: 5px;
             margin: 0;
-            gap: 1rem;
+            flex-grow: 1;
+            overflow-y: auto;
+            max-height: calc(100% - 50px);
+        }
+        .chat-list li {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            background: #f8f9fc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .chat-list li:hover {
+            background: #e2e6ea;
+        }
+        .chat-list img {
+            width: 35px;
+            height: 35px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+        .status-badge {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+        .online {
+            background-color: #28a745;
+        }
+        .offline {
+            background-color: #6c757d;
+        }
+        .notification-badge {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        @keyframes pulse {
+         0% {
+                transform: scale(1);
+        }
+        50% {
+                transform: scale(1.1);
+            }
+        100% {
+                transform: scale(1);
+            }
+        }
+        .chat-notification {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            border-radius: 50%;
+            display: none; /* Hidden by default */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            animation: pulse 1s infinite;
+        }
+        .chat-notification:hover {
+            transform: scale(1.1);
+            background-color: dark red;
+        }
+        .messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 500px;
+            background-color: background: linear-gradient(135deg, #ffffff, #f0f0f0);;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .messages::-webkit-scrollbar {
+            width: 8px;
+            background-color: #ddd;
+        }
+        .messages::-webkit-scrollbar-thumb {
+            background-color: #aaa;
+            border-radius: 4px;
+        }
+        .message-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        .message-container.me {
+            justify-content: flex-end;
+        }
+        .message-container.other {
+            justify-content: flex-start;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #ccc;
+            flex-shrink: 0;
+        }
+        .message-bubble {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 20px;
+            font-family: Georgia, serif;
+            font-size: 15px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease-in-out;
+        }
+        .message-container.me .message-bubble {
+            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            color: white;
+            text-align: left;
+            border-bottom-right-radius: 5px;
+        }
+        .message-container.me .message-bubble:hover {
+            transform: scale(1.03);
+        }
+        .message-container.other .message-bubble {
+            background: linear-gradient(135deg, #f0f0f0, #d1d1d1);
+            color: #000;
+            text-align: left;
+            border-bottom-left-radius: 5px;
+        }
+        .message-container.other .message-bubble:hover {
+            transform: scale(1.03);
+        }
+        .message-timestamp {
+            font-size: 0.75rem;
+            color: gray;
+            margin-top: 5px;
+            text-align: right;
+        }
+        @keyframes messageAppear {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+            }
+        }
+
+        .message-bubble {
+            animation: messageAppear 0.1s ease-in-out;
+        }
+        .username {
+            font-size: 0.7rem;
+            font-family: Georgia, serif;
+            color: black;
+            font-style: Italic;
+        }
+        .status{
+            font-size: 0.9rem;
+            font-style: Italic;
+            }
+        .unread-badge{
+            font-size: 0.9rem;
+            font-style: Italic;
+            font-color: #EE4B2B;
+            }
+        .message-timestamp {
+            font-size: 0.75rem;
+            color: white;
+            margin-top: 5px;
+            text-align: right;
+        }
+        .chat-input {
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+            gap: 5px;
+        }
+        .chat-input textarea {
+            flex: 1;
+            resize: none;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 5px 5px;
+            font-size: 1rem;
+            height: 30px;
+            outline: none;
+            background-color: #f9f9f9;
+        }
+        .chat-input button {
+            background-color: #075E54;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 5px 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .chat-input button:hover {
+            background-color: #004d36;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background-color: linear-gradient(135deg, #6cb2eb, #4e73df);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .message-input {
+            width: 85%;
+            padding: 10px;
+            background-color: linear-gradient(135deg, #6cb2eb, #4e73df);
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-right: 10px;
+        }
+        .send-btn {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .send-btn:hover {
+            background: linear-gradient(135deg, #4e73df, #6cb2eb); /* Inverted lighter gradient on hover */
+        }
+
+        .send-btn img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .shareBtn {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .shareBtn:hover {
+            background: linear-gradient(135deg, #4e73df, #6cb2eb);
+        }
+
+        .shareBtn img {
+            width: 25px;
+            height: 25px;
+        }
+        #avatar-pic {
+            width: 50px;
+            height: 50px;
+            background-color:#E6E6FA;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #avatar-pic:hover {
+            background-color: #D8BFD8;
+        }
+        #avatar-pic img {
+            width: 25px;
+            height: 25px;
+        }
+        .options {
+            display: none;
+            position: absolute;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            border: none;
+            background: #fff;
+            cursor: pointer;
+        }
+        .options button:hover {
+            background: #f0f0f0;
+        }
+        .user-status {
+            font-size: 20px;
+            margin-left: 5px;
+        }
+        @keyframes badge-pulse {
+            0% {
+                transform: scale(1);
+                background-color: #dc3545;
+            }
+            50% {
+                transform: scale(1.2);
+                background-color: #ff5b5b;
+            }
+            100% {
+                transform: scale(1);
+                background-color: #dc3545;
+            }
+        }
+
+        @keyframes badge-fadein {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .notification-badge {
+            display: inline-block;
+            padding: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            border-radius: 50%;
+            background-color: #dc3545;
+            animation: badge-pulse 2s infinite, badge-fadein 0.5s ease-out;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .logout-button {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: white;
+            padding: 8px 12px;
+        }
+
+        .logout-button img{
+            width: 30px;
+            height: 30px;
+        }
+
+        .logout-button:hover {
+            background: linear-gradient(135deg, #4e73df, #6cb2eb);
+        }
+        .background-effects{
+            background-image: url('/static/img/bg.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+         * {
+            margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        .header-tag{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: black;
+            background: linear-gradient(135deg, #f0f0f0, #d1d1d1);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header {
+            font-color: solid black;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #4e73df, #6cb2eb);
+            color: solid black;
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-color: solid black;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-menu {
             display: flex;
             list-style: none;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: linear-gradient(135deg, #4e73df, #6cb2eb) ;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            text-decoration: underline;
+        }
+
+        .user-info {
+            display: flex;
             align-items: center;
-            flex-direction: column;
+            gap: 15px;
         }
-        .user-list li {
-            width: 80%;
-            text-align: center;
-            color: black;
-            border-radius: 3rem;
-            background: #f0f0f0;
-            padding: 1.1rem;
+
+        .profile-pic {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px;
+            background: linear-gradient(135deg, #4e73df, #6cb2eb);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
         }
-        .user-list li:hover {
-            background: #e0e0e0;
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                border: solid black;
+                background: linear-gradient(135deg, #f0f0f0, #d1d1d1);
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                padding: 10px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            overflow: hidden;
+        }
+
+        .logo:hover {
+            background: linear-gradient(135deg, #4e73df, #6cb2eb); /* Inverted lighter gradient on hover */
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: invert(0%);
         }
     </style>
 </head>
+
 <body>
-<div class="container">
-    <header class="chat-header">{{ user.username }}</header>
-    <ul class="user-list" id="userList">
-        {% for user in users %}
-            <li id="user-{{ user.username }}" onclick="startChat('{{ user.username }}')">
-                {{ user.username }}
-                 {% if request.user.is_superuser %}
-                <span id="status-{{ user.id }}">
-                    {% if user.is_online %} 🟢 Online {% else %} 🔴 Offline {% endif %}
-                 </span>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+<div class="header-tag">
+    <header class="header">
+        <div class="logo"><img src="{% static 'img/chat logo.png' %}" alt="logo"></div>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <h2>My website</h2>
+        <ul class="nav-menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Chat</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+
+        <div class="user-info">
+            <img src="{% static 'img/ProfilePic.png' %}" alt="Profile" class="profile-pic">
+                {% csrf_token %}
+                <a href="{% url 'logout' %}" class="logout-button">
+                    <img src="https://img.icons8.com/?size=100&id=tNsa8uiKIfwd&format=png&color=000000" alt="Logout">
+                </a>
+        </div>
+    </header>
 </div>
+<div class="background-effects">
+<button class="chat-button">
+    <img src="{% static 'img/image03.png' %}" alt="Chat">
+    <span class="chat-notification" id="chat-notification">!</span>
+</button>
 
+<div class="chat-panel">
+    <div class="chat-header">
+        <h5>Chatty Chat</h5>
+        <button class="close-chat">&times;</button></div>
+    <ul class="chat-list">
+        {% for user in users %}
+        <li data-username="{{ user.username }}" data-id="{{ user.id }}">
+            <div class="d-flex align-items-center">
+                <img src="{% static 'img/image05.png' %}" alt="User">
+                <span>{{ user.username }}</span>
+                <span class="status-badge offline" id="user-status-{{ user.id }}"></span>
+            </div>
+            <span class="badge bg-danger notification-badge" id="notification-badge-{{ user.username }}" style="display: none;">0</span>
+        </li>
+        {% endfor %}
+        </ul></div>
+    <div class="chat-content-panel"></div>
+</div>
 <script>
-    var socket = new WebSocket(
-        (window.location.protocol === "https:" ? "wss://" : "ws://") +
-        window.location.host + "/ws/online_status/"
-    );
-
-    socket.onmessage = function(event) {
+var onlineSocket = new WebSocket("ws://" + window.location.host + "/ws/online/");
+    onlineSocket.onmessage = function(event) {
         var data = JSON.parse(event.data);
-        var userElement = document.getElementById("status-" + data.user_id);
-        if (userElement) {
-            userElement.innerHTML = data.is_online ? "🟢 Online" : "🔴 Offline";
+        if (data.type === "update_online_users") {
+            updateOnlineUserList(data.online_users);
         }
     };
-    function startChat(username) {
-        window.location.href = '/chat/' + username + '/';
+    function updateOnlineUserList(onlineUsers) {
+        document.querySelectorAll(".user-status").forEach((element) => {
+            element.classList.remove("online");
+            element.classList.add("offline");
+        });
+        onlineUsers.forEach((user) => {
+            let userElement = document.getElementById("user-status-" + user.user__id);
+            if (userElement) {
+                userElement.classList.remove("offline");
+                userElement.classList.add("online");
+            }
+        });
     }
+document.querySelector(".menu-toggle").addEventListener("click", () => {
+            document.querySelector(".nav-menu").classList.toggle("active");
+        });
+$(document).ready(function () {
+    let chatPanels = [];
+    $(".chat-button").click(function () {
+        $(".chat-panel").toggleClass("active");
+    });
+    $(".close-chat").click(function () {
+        $(".chat-panel").removeClass("active");
+    });
+    $(".chat-list li").click(function () {
+        let username = $(this).data("username");
+        let userId = $(this).data("id");
+        let chatPanelId = "chat-panel-" + username + "-" + userId;
+        let sender = "{{ request.user.username }}";
+        let recipient = username;
+        let chatMessages = "${chat-messages}";
+        let existingPanel = $("#" + chatPanelId);
+    if (existingPanel.length) {
+        bringPanelToFront(chatPanelId);
+        return;
+    }
+        console.log("Chat Panel", chatPanelId);
+        loadOldMessages(sender, recipient, chatMessages, chatPanelId);
+
+            let chatPanel = $(`
+                <div class="chat-content-panel active" id="${chatPanelId}">
+                    <div class="chat-header" style="font-family: serif;">
+                    ${username}
+                        <button class="close-chat-content" data-id="${chatPanelId}">&times;</button>
+                    </div>
+                    <div class="chat-container">
+                        <div class="container">
+                            <div class="chat-container2">
+                                <div class="messages" id="chat-messages-${chatPanelId}" class="chat-messages">
+                                {% for message in messages %}
+                                    <div class="message-container {% if message.sender.username == user.username %}me{% else %}other{% endif %}">
+                                    {% if message.sender.username != user.username %}
+                                    <div class="avatar" id="avatar-pic"><img src="https://img.icons8.com/?size=100&id=nSR7D8Yb2tjC&format=png&color=000000" alt="AV"></div>
+                                    {% endif %}
+                                    <div class="message-bubble">
+                                        <div class="username">{{ message.sender.username }}</div>
+                                        <div class="message-content">{{ message.content }}</div>
+                                        <div class="message-timestamp">{{ message.timestamp|date:"H:i" }}</div>
+                                    </div>
+                                    <div class="options" id="options-{{ message.id }}">
+                                    <button onclick="copyMessage('{{ message.content }}')"><img src="https://img.icons8.com/?size=100&id=86216&format=png&color=000000" alt="Copy"></button>
+                                    </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        <div class="chat-input" id="chat-input">
+                            <input autocomplete="off" type="text" class="message-input" id="message-input-${chatPanelId}" placeholder="Type your message...">
+                            <button id="send-btn-${chatPanelId}" class="send-btn">
+                                <img src="https://img.icons8.com/?size=100&id=2837&format=png&color=000000" alt="send">
+                            </button>
+                            <button id="shareBtn-${chatPanelId}" class="shareBtn">
+                                <img src="https://img.icons8.com/?size=100&id=IId2iYTrumrQ&format=png&color=000000" alt="share">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                    <div class="video-container">
+                        <div class="screen-share-container">
+                            <video id="localVideo-${chatPanelId}" class="localVideo" autoplay></video>
+                            <video id="remoteVideo-${chatPanelId}" class="remoteVideo" autoplay></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
+    $("body").append(chatPanel);
+    chatPanels.push(chatPanelId);
+    bringPanelToFront(chatPanelId);
+    console.log("Initializing chat WebSocket...");
+    console.log(sender, recipient);
+
+    let chatSocket = new WebSocket(`ws://${window.location.host}/ws/chat/${sender}/${recipient}/`);
+
+    $(document).on("click", `#send-btn-${chatPanelId}`, function () {
+        sendMessage(chatSocket, chatPanelId);
+    });
+    $(`#message-input-${chatPanelId}`).keypress(function (event) {
+        if (event.key === 'Enter') sendMessage(chatSocket, chatPanelId);
+    });
+
+    function bringPanelToFront(panelId) {
+    let panel = $("#" + panelId);
+    panel.css("z-index", Math.max(...chatPanels.map(id => $("#" + id).css("z-index"))) + 1);
+    }
+
+    function sendMessage(chatSocket, chatPanelId) {
+        const messageInput = $(`#message-input-${chatPanelId}`);
+        const message = messageInput.val().trim();
+        if (!message) return;
+        chatSocket.send(JSON.stringify({ message: message }));
+        messageInput.val('');
+    }
+
+    chatSocket.onmessage = function (event) {
+        const data = JSON.parse(event.data);
+        console.log("Received message:", data);
+        let panelId = "chat-panel-" + sender + "-" + recipient;
+        console.log("panelId: ", chatPanelId);
+        renderMessage(data,chatPanelId);
+    };
+
+    function renderMessage(data, chatPanelId) {
+    const chatMessages = $(`#chat-messages-${chatPanelId}`);
+    let chatPanel = $("#" + chatPanelId);
+    const newMessage = `
+        <div class="message-container ${data.sender === "{{ request.user.username }}" ? 'me' : 'other'}">
+            <div class="message-bubble">
+                <div class="username">${data.sender}</div>
+                <div class="message-content">${data.message || ''}</div>
+                <div class="message-timestamp">${new Date().toLocaleTimeString()}</div>
+            </div>
+        </div>`;
+        chatMessages.append(newMessage);
+        chatMessages.scrollTop(chatMessages.prop("scrollHeight"));
+        }
+        markMessagesAsRead(username);
+        updateChatPanelPositions();
+    });
+
+    function loadOldMessages(sender, recipient, chatMessages, chatPanelId) {
+        $.ajax({
+            url: `/load-messages/${sender}/${recipient}/`,
+            type: "GET",
+            success: function (data) {
+                const chatMessages = $(`#${chatPanelId} #chat-messages-${chatPanelId}`);
+                data.messages.forEach((msg) => {
+                    const newMessage = `
+                        <div class="message-container ${msg.sender === sender ? 'me' : 'other'}">
+                            <div class="message-bubble">
+                                <div class="username">${msg.sender}</div>
+                                <div class="message-content">${msg.content}</div>
+                                <div class="message-timestamp">${msg.timestamp}</div>
+                            </div>
+                        </div>`;
+                    chatMessages.append(newMessage);
+                });
+                chatMessages.scrollTop(chatMessages.prop("scrollHeight"));
+            },
+            error: function (error) {
+                console.error("Error loading messages:", error);
+            }
+        });
+    }
+
+    function updateChatPanelPositions() {
+        let startRight = 360;
+        let panelWidth = 350;
+        let gap = 10;
+
+        for (let i = chatPanels.length - 1; i >= 0; i--) {
+            let panelId = chatPanels[i];
+            $("#" + panelId).css({
+                "right": startRight + "px",
+                "display": "block"
+            });
+        startRight += panelWidth + gap;
+        }
+    }
+
+    $(document).on("click", ".close-chat-content", function () {
+        let panelId = $(this).data("id");
+        $("#" + panelId).remove();
+        chatPanels = chatPanels.filter(id => id !== panelId);
+        updateChatPanelPositions();
+    });
+
+    var notificationSocket = new WebSocket("ws://" + window.location.host + "/ws/notifications/");
+    notificationSocket.onmessage = function(event) {
+        var data = JSON.parse(event.data);
+        if (data.type === "unread_count") {
+            updateUnreadCounts(data.unread_counts);
+        }
+    };
+
+    function markMessagesAsRead(username) {
+        $.ajax({
+            url: "/mark-as-read/",
+            type: "POST",
+            data: {
+                username: username,
+                csrfmiddlewaretoken: "{{ csrf_token }}"
+            },
+            success: function(response) {
+                $("#notification-badge-" + username).hide();
+                $("#chat-notification").hide();
+            }
+        });
+    }
+    $(".chat-list li").click(function () {
+        let username = $(this).data("username");
+        let userId = $(this).data("id");
+        let sender = "{{ request.user.username }}";
+        let recipient = username;
+        let chatPanelId = "chat-panel-" + username + "-" + userId;
+        let localVideo = $("#" + chatPanelId + " #localVideo")[0];
+        let remoteVideo = $("#" + chatPanelId + " #remoteVideo")[0];
+        const shareSocket = new WebSocket('ws://' + window.location.host + '/ws/screenshare/');
+        let localStream, peerConnection;
+        const config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+        shareSocket.onopen = () => console.log("Screen Share WebSocket connected");
+        shareSocket.onerror = (error) => console.error("Screen Share WebSocket error:", error);
+        shareSocket.onclose = () => console.warn("Screen Share WebSocket closed");
+
+        $(`#${chatPanelId} #shareBtn-${chatPanelId}`).click(async function () {
+
+            try {
+                localStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                localVideo.srcObject = localStream;
+                peerConnection = new RTCPeerConnection(config);
+                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+                peerConnection.onicecandidate = event => {
+                    if (event.candidate) {
+                        shareSocket.send(JSON.stringify({ candidate: event.candidate }));
+                    }
+                };
+                peerConnection.ontrack = event => {
+                    remoteVideo.srcObject = event.streams[0];
+                };
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+                shareSocket.send(JSON.stringify({ offer: offer }));
+            } catch (error) {
+                console.error("Error accessing display media:", error);
+            }
+        });
+    });
+
+    function updateUnreadCounts(unreadCounts) {
+        let userItems = document.querySelectorAll(".chat-list li");
+        userItems.forEach((item) => {
+            let username = item.getAttribute("data-username");
+            let unreadCount = unreadCounts[username] || 0;
+            let badge = document.getElementById("notification-badge-" + username);
+            if (badge) {
+                badge.innerText = unreadCount;
+                badge.style.display = unreadCount > 0 ? "inline-block" : "none";
+            }
+        });
+    let totalUnread = Object.values(unreadCounts).reduce((sum, count) => sum + count, 0);
+    if (totalUnread > 0) {
+        $("#chat-notification").show();
+    } else {
+        $("#chat-notification").hide();
+    }
+  }
+});
 </script>
 </body>
-
-
 </html>

@@ -1,0 +1,673 @@
+{
+    "intents": [
+        {
+            "tag": "greeting",
+            "patterns": ["Hello", "Hi", "Hey", "Good morning", "Good afternoon", "Good evening"],
+            "responses": ["Hello!", "Hi there!", "Hey!", "Good to see you!", "Welcome! How can I assist you today?"]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": ["Bye", "Goodbye", "See you later", "See you soon", "Take care"],
+            "responses": ["Goodbye!", "See you later!", "Take care!", "Have a great day!"]
+        },
+        {
+            "tag": "thanks",
+            "patterns": ["Thanks", "Thank you", "Thanks a lot", "I appreciate it"],
+            "responses": ["You're welcome!", "No problem!", "Glad to help!", "Anytime!"]
+        },
+        {
+            "tag": "login_help",
+            "patterns": ["How do I log in?", "Where is the login page?", "Help me log in", "I need to log in"],
+            "responses": [
+                "To log in, go to the login page and enter your username and password.",
+                "Click on the login button at the top right and enter your credentials.",
+                "If you have an account, use your email and password to log in."
+            ]
+        },
+        {
+            "tag": "forgot_password",
+            "patterns": ["I forgot my password", "Reset my password", "Can't remember my password"],
+            "responses": [
+                "You can reset your password by clicking on the 'Forgot Password?' link on the login page.",
+                "Go to the login page and click on 'Forgot Password?' to reset it.",
+                "Visit the password recovery page and follow the steps to reset your password."
+            ]
+        },
+        {
+            "tag": "account_creation",
+            "patterns": ["How do I create an account?", "Sign up process", "Register", "New account"],
+            "responses": [
+                "To create an account, go to the signup page and enter your details.",
+                "Click on 'Create an Account' on the login page and follow the instructions.",
+                "Visit the registration page and fill in the required details to create your account."
+            ]
+        },
+        {
+            "tag": "account_locked",
+            "patterns": ["My account is locked", "I can't access my account", "Why is my account blocked?"],
+            "responses": [
+                "Your account may be locked due to multiple failed login attempts. Try resetting your password.",
+                "Contact support to unlock your account.",
+                "If you're unable to access your account, try resetting your password or reach out to support."
+            ]
+        },
+        {
+            "tag": "sign_out",
+            "patterns": ["How do I log out?", "Where is the logout button?", "Sign out"],
+            "responses": [
+                "Click on your profile at the top right corner and select 'Log Out'.",
+                "To sign out, go to the menu and click 'Logout'.",
+                "You can log out from the settings page or by clicking 'Sign Out' in the navigation bar."
+            ]
+        },
+        {
+            "tag": "security",
+            "patterns": ["Is my account secure?", "How do I secure my login?", "Security tips"],
+            "responses": [
+                "Use a strong password and enable two-factor authentication for better security.",
+                "Never share your password with anyone and always log out when using a public computer.",
+                "Enable multi-factor authentication to keep your account secure."
+            ]
+        },
+        {
+            "tag": "support",
+            "patterns": ["I need help", "How can I contact support?", "Help center", "Customer support"],
+            "responses": [
+                "You can reach our support team via the Contact Us page.",
+                "Visit our Help Center for more information and troubleshooting steps.",
+                "If you need assistance, contact our support team through live chat or email."
+            ]
+        },
+
+	    {
+            "tag": "login_help",
+            "patterns": [
+                "How can I log in?",
+                "Where do I enter my credentials?",
+                "Login instructions",
+                "Need help with logging in"
+            ],
+            "responses": [
+                "To log in, please enter your username and password on the login page.",
+                "Go to the login page and provide your credentials.",
+                "Follow the login link at the top of the page and enter your username and password."
+            ]
+        },
+        {
+            "tag": "forgot_password",
+            "patterns": [
+                "Can't remember my password",
+                "Forgot login password",
+                "How do I recover my password?",
+                "Password reset help"
+            ],
+            "responses": [
+                "Click on 'Forgot Password?' on the login page to start the recovery process.",
+                "Follow the 'Forgot Password?' link and enter your email to reset your password.",
+                "You can recover your password by going to the password reset page."
+            ]
+        },
+        {
+            "tag": "account_creation",
+            "patterns": [
+                "Steps to create an account",
+                "How to sign up?",
+                "Register a new account",
+                "New user registration"
+            ],
+            "responses": [
+                "To create an account, click on 'Sign Up' and fill in your details.",
+                "Visit the registration page and enter your information to create an account.",
+                "Click on the 'Create an Account' button and follow the prompts."
+            ]
+        },
+        {
+            "tag": "account_locked",
+            "patterns": [
+                "My account is blocked",
+                "Unable to access account",
+                "Account locked due to failed attempts",
+                "Help with locked account"
+            ],
+            "responses": [
+                "If your account is locked, try resetting your password or contact support.",
+                "Your account may be locked due to multiple failed login attempts. Reset your password or reach out to support.",
+                "To unlock your account, follow the password reset steps or get in touch with support."
+            ]
+        },
+        {
+            "tag": "sign_out",
+            "patterns": [
+                "Where is the logout option?",
+                "How to sign out?",
+                "Logging out instructions",
+                "Log off"
+            ],
+            "responses": [
+                "Click on your profile at the top right and select 'Log Out'.",
+                "To log out, go to the settings menu and click 'Logout'.",
+                "You can sign out by clicking 'Log Out' in the user menu."
+            ]
+        },
+        {
+            "tag": "security",
+            "patterns": [
+                "How to secure my account?",
+                "Is my account protected?",
+                "Account security measures",
+                "Enhancing account security"
+            ],
+            "responses": [
+                "Enable two-factor authentication for added security.",
+                "Use a strong, unique password and enable multi-factor authentication.",
+                "Keep your account secure by enabling two-factor authentication and never sharing your password."
+            ]
+        },
+        {
+            "tag": "login_issues",
+            "patterns": [
+                "Why can't I log in?",
+                "Login not working",
+                "Having trouble logging in",
+                "Unable to access my account"
+            ],
+            "responses": [
+                "If you can't log in, ensure your username and password are correct.",
+                "Check if your account is locked or if you've forgotten your password.",
+                "Make sure your credentials are correct and try resetting your password if needed."
+            ]
+        },
+        {
+            "tag": "login_security",
+            "patterns": [
+                "How secure is my login?",
+                "Login protection measures",
+                "Ensuring secure login",
+                "Security for logging in"
+            ],
+            "responses": [
+                "Our login system uses encryption to protect your credentials.",
+                "Enable two-factor authentication to enhance login security.",
+                "Your login is protected with industry-standard security measures."
+            ]
+        },
+
+	    {
+            "tag": "login_help",
+            "patterns": [
+                "Help me sign in",
+                "Where do I log in?",
+                "Login steps",
+                "Instructions to log in"
+            ],
+            "responses": [
+                "You can sign in by entering your username and password on the login page.",
+                "Visit the login page and input your credentials to sign in.",
+                "Follow the 'Login' link and enter your username and password."
+            ]
+        },
+        {
+            "tag": "forgot_password",
+            "patterns": [
+                "Lost my password",
+                "Need to reset my password",
+                "Forgot my login details",
+                "Password recovery help"
+            ],
+            "responses": [
+                "To reset your password, click on the 'Forgot Password?' link on the login page.",
+                "Follow the 'Forgot Password?' link and enter your email to reset your password.",
+                "You can recover your password by following the steps on the password reset page."
+            ]
+        },
+        {
+            "tag": "account_creation",
+            "patterns": [
+                "Create a new account",
+                "Register for an account",
+                "How to sign up?",
+                "Sign up instructions"
+            ],
+            "responses": [
+                "To create an account, click on 'Sign Up' and provide the required information.",
+                "Visit the registration page and enter your details to create an account.",
+                "Click on the 'Create an Account' button and follow the prompts to register."
+            ]
+        },
+        {
+            "tag": "account_locked",
+            "patterns": [
+                "Why is my account locked?",
+                "Account blocked",
+                "Can't access my account",
+                "Unlock my account"
+            ],
+            "responses": [
+                "If your account is locked, try resetting your password or contact support.",
+                "Your account may be locked due to multiple failed login attempts. Reset your password or reach out to support.",
+                "To unlock your account, follow the password reset steps or get in touch with support."
+            ]
+        },
+        {
+            "tag": "sign_out",
+            "patterns": [
+                "Log out process",
+                "Where do I sign out?",
+                "Sign out steps",
+                "How to log off?"
+            ],
+            "responses": [
+                "Click on your profile at the top right and select 'Log Out'.",
+                "To log out, go to the settings menu and click 'Logout'.",
+                "You can sign out by clicking 'Log Out' in the user menu."
+            ]
+        },
+        {
+            "tag": "security",
+            "patterns": [
+                "Improve account security",
+                "How secure is my login?",
+                "Enhance login security",
+                "Security tips for account"
+            ],
+            "responses": [
+                "Enable two-factor authentication for added security.",
+                "Use a strong, unique password and enable multi-factor authentication.",
+                "Keep your account secure by enabling two-factor authentication and never sharing your password."
+            ]
+        },
+        {
+            "tag": "login_issues",
+            "patterns": [
+                "Can't log in",
+                "Login problem",
+                "Trouble with login",
+                "Login not working"
+            ],
+            "responses": [
+                "If you can't log in, ensure your username and password are correct.",
+                "Check if your account is locked or if you've forgotten your password.",
+                "Make sure your credentials are correct and try resetting your password if needed."
+            ]
+        },
+        {
+            "tag": "login_security",
+            "patterns": [
+                "Securing my login",
+                "Login safety measures",
+                "How to protect my login?",
+                "Security for logging in"
+            ],
+            "responses": [
+                "Our login system uses encryption to protect your credentials.",
+                "Enable two-factor authentication to enhance login security.",
+                "Your login is protected with industry-standard security measures."
+            ]
+        },
+        {
+            "tag": "signup_help",
+            "patterns": [
+                "Need help with sign-up",
+                "How to register?",
+                "Steps to sign up",
+                "Creating a new account"
+            ],
+            "responses": [
+                "To sign up, click on 'Register' and enter your information.",
+                "Follow the 'Sign Up' link and provide the required details.",
+                "Visit the registration page and complete the form to create an account."
+            ]
+        },
+        {
+            "tag": "logout_confirmation",
+            "patterns": [
+                "How do I confirm log out?",
+                "Confirming sign out",
+                "Log out confirmation steps",
+                "How to complete sign out?"
+            ],
+            "responses": [
+                "After clicking 'Log Out,' confirm the action if prompted.",
+                "To complete the sign out, click 'Log Out' and confirm if required.",
+                "Make sure to confirm the log out action to successfully sign out."
+            ]
+        },
+
+        {
+            "tag": "login_help",
+            "patterns": [
+                "Assistance with logging in",
+                "How do I access my account?",
+                "Steps to log in",
+                "Where is the login page?"
+            ],
+            "responses": [
+                "You can log in by clicking on the login button at the top right and entering your credentials.",
+                "Go to the login page and enter your username and password to access your account.",
+                "To log in, follow the 'Login' link and provide your username and password."
+            ]
+        },
+        {
+            "tag": "forgot_password",
+            "patterns": [
+                "Need to reset password",
+                "Can't remember my login details",
+                "Forgot password help",
+                "Reset my password"
+            ],
+            "responses": [
+                "To reset your password, click on 'Forgot Password?' on the login page and follow the instructions.",
+                "Click on 'Forgot Password?' and enter your email to receive reset instructions.",
+                "You can reset your password by following the steps on the password recovery page."
+            ]
+        },
+        {
+            "tag": "account_creation",
+            "patterns": [
+                "How do I create an account?",
+                "Steps to sign up",
+                "Register new account",
+                "Sign up for a new account"
+            ],
+            "responses": [
+                "To create an account, click on 'Sign Up' and fill in the required details.",
+                "Visit the registration page and enter your information to create an account.",
+                "Click on the 'Create an Account' button and follow the prompts to register."
+            ]
+        },
+        {
+            "tag": "account_locked",
+            "patterns": [
+                "My account is blocked",
+                "Unable to access my account",
+                "Why is my account locked?",
+                "Help with locked account"
+            ],
+            "responses": [
+                "If your account is locked, try resetting your password or contact support.",
+                "Your account may be locked due to multiple failed login attempts. Reset your password or reach out to support.",
+                "To unlock your account, follow the password reset steps or get in touch with support."
+            ]
+        },
+        {
+            "tag": "sign_out",
+            "patterns": [
+                "Steps to log out",
+                "How to sign out?",
+                "Log out process",
+                "Where is the logout option?"
+            ],
+            "responses": [
+                "Click on your profile at the top right and select 'Log Out'.",
+                "To log out, go to the settings menu and click 'Logout'.",
+                "You can sign out by clicking 'Log Out' in the user menu."
+            ]
+        },
+        {
+            "tag": "security",
+            "patterns": [
+                "How do I secure my account?",
+                "Is my account safe?",
+                "Account protection tips",
+                "Steps to secure login"
+            ],
+            "responses": [
+                "Enable two-factor authentication for added security.",
+                "Use a strong, unique password and enable multi-factor authentication.",
+                "Keep your account secure by enabling two-factor authentication and never sharing your password."
+            ]
+        },
+        {
+            "tag": "login_issues",
+            "patterns": [
+                "Can't log in",
+                "Login problem",
+                "Having trouble logging in",
+                "Login not working"
+            ],
+            "responses": [
+                "If you can't log in, ensure your username and password are correct.",
+                "Check if your account is locked or if you've forgotten your password.",
+                "Make sure your credentials are correct and try resetting your password if needed."
+            ]
+        },
+        {
+            "tag": "login_security",
+            "patterns": [
+                "How secure is my login?",
+                "Security measures for login",
+                "Protecting my login",
+                "Securing login details"
+            ],
+            "responses": [
+                "Our login system uses encryption to protect your credentials.",
+                "Enable two-factor authentication to enhance login security.",
+                "Your login is protected with industry-standard security measures."
+            ]
+        },
+        {
+            "tag": "signup_help",
+            "patterns": [
+                "Help with sign-up",
+                "How to register?",
+                "Instructions to sign up",
+                "Creating a new account"
+            ],
+            "responses": [
+                "To sign up, click on 'Register' and enter your information.",
+                "Follow the 'Sign Up' link and provide the required details.",
+                "Visit the registration page and complete the form to create an account."
+            ]
+        },
+        {
+            "tag": "logout_confirmation",
+            "patterns": [
+                "Confirm log out",
+                "Log out confirmation steps",
+                "How to confirm sign out?",
+                "Completing log out"
+            ],
+            "responses": [
+                "After clicking 'Log Out,' confirm the action if prompted.",
+                "To complete the sign out, click 'Log Out' and confirm if required.",
+                "Make sure to confirm the log out action to successfully sign out."
+            ]
+        },
+    	{
+            "tag": "login_help",
+            "patterns": [
+                "Help me log in",
+                "Where is the login page?",
+                "How do I log in?",
+                "Steps to log in"
+            ],
+            "responses": [
+                "You can log in by clicking on the login button at the top right and entering your credentials.",
+                "Go to the login page and enter your username and password to access your account.",
+                "To log in, follow the 'Login' link and provide your username and password."
+            ]
+        },
+        {
+            "tag": "forgot_password",
+            "patterns": [
+                "Forgot my password",
+                "Need to reset my password",
+                "Can't remember my password",
+                "Reset my password"
+            ],
+            "responses": [
+                "To reset your password, click on 'Forgot Password?' on the login page and follow the instructions.",
+                "Click on 'Forgot Password?' and enter your email to receive reset instructions.",
+                "You can reset your password by following the steps on the password recovery page."
+            ]
+        },
+        {
+            "tag": "account_creation",
+            "patterns": [
+                "Create a new account",
+                "How do I sign up?",
+                "Register a new account",
+                "Sign up steps"
+            ],
+            "responses": [
+                "To create an account, click on 'Sign Up' and fill in the required details.",
+                "Visit the registration page and enter your information to create an account.",
+                "Click on the 'Create an Account' button and follow the prompts to register."
+            ]
+        },
+        {
+            "tag": "account_locked",
+            "patterns": [
+                "My account is locked",
+                "I can't access my account",
+                "Why is my account locked?",
+                "Help with locked account"
+            ],
+            "responses": [
+                "If your account is locked, try resetting your password or contact support.",
+                "Your account may be locked due to multiple failed login attempts. Reset your password or reach out to support.",
+                "To unlock your account, follow the password reset steps or get in touch with support."
+            ]
+        },
+        {
+            "tag": "sign_out",
+            "patterns": [
+                "How do I log out?",
+                "Where is the logout option?",
+                "Steps to sign out",
+                "Log out process"
+            ],
+            "responses": [
+                "Click on your profile at the top right and select 'Log Out'.",
+                "To log out, go to the settings menu and click 'Logout'.",
+                "You can sign out by clicking 'Log Out' in the user menu."
+            ]
+        },
+        {
+            "tag": "security",
+            "patterns": [
+                "How do I secure my account?",
+                "Is my account secure?",
+                "Account protection tips",
+                "Steps to secure login"
+            ],
+            "responses": [
+                "Enable two-factor authentication for added security.",
+                "Use a strong, unique password and enable multi-factor authentication.",
+                "Keep your account secure by enabling two-factor authentication and never sharing your password."
+            ]
+        },
+        {
+            "tag": "login_issues",
+            "patterns": [
+                "Can't log in",
+                "Login problem",
+                "Trouble with login",
+                "Login not working"
+            ],
+            "responses": [
+                "If you can't log in, ensure your username and password are correct.",
+                "Check if your account is locked or if you've forgotten your password.",
+                "Make sure your credentials are correct and try resetting your password if needed."
+            ]
+        },
+        {
+            "tag": "login_security",
+            "patterns": [
+                "How secure is my login?",
+                "Security measures for login",
+                "Protecting my login",
+                "Securing login details"
+            ],
+            "responses": [
+                "Our login system uses encryption to protect your credentials.",
+                "Enable two-factor authentication to enhance login security.",
+                "Your login is protected with industry-standard security measures."
+            ]
+        },
+        {
+            "tag": "signup_help",
+            "patterns": [
+                "Help with sign-up",
+                "How to register?",
+                "Instructions to sign up",
+                "Creating a new account"
+            ],
+            "responses": [
+                "To sign up, click on 'Register' and enter your information.",
+                "Follow the 'Sign Up' link and provide the required details.",
+                "Visit the registration page and complete the form to create an account."
+            ]
+        },
+        {
+            "tag": "logout_confirmation",
+            "patterns": [
+                "Confirm log out",
+                "Log out confirmation steps",
+                "How to confirm sign out?",
+                "Completing log out"
+            ],
+            "responses": [
+                "After clicking 'Log Out,' confirm the action if prompted.",
+                "To complete the sign out, click 'Log Out' and confirm if required.",
+                "Make sure to confirm the log out action to successfully sign out."
+            ]
+        },
+        {
+            "tag": "password_requirements",
+            "patterns": [
+                "What are the password requirements?",
+                "Password criteria",
+                "Creating a strong password",
+                "Password rules"
+            ],
+            "responses": [
+                "Your password should be at least 8 characters long and include a mix of letters, numbers, and special characters.",
+                "Make sure your password is strong by using at least 8 characters, including uppercase and lowercase letters, numbers, and special symbols.",
+                "A strong password should have at least 8 characters with a combination of letters, numbers, and special symbols."
+            ]
+        },
+        {
+            "tag": "username_availability",
+            "patterns": [
+                "Is this username available?",
+                "Can I use this username?",
+                "Check username availability",
+                "Is my username taken?"
+            ],
+            "responses": [
+                "To check if a username is available, try entering it during the registration process.",
+                "You can check the availability of a username while creating your account.",
+                "If the username is taken, you'll be prompted to choose a different one during sign-up."
+            ]
+        },
+        {
+            "tag": "email_verification",
+            "patterns": [
+                "How do I verify my email?",
+                "Email verification process",
+                "Verify my email address",
+                "Steps to confirm email"
+            ],
+            "responses": [
+                "To verify your email, click on the verification link sent to your registered email address.",
+                "Check your inbox for a verification email and click on the link to confirm your email address.",
+                "Follow the steps in the verification email to verify your email address."
+            ]
+        },
+        {
+            "tag": "profile_update",
+            "patterns": [
+                "How do I update my profile?",
+                "Edit my profile information",
+                "Change account details",
+                "Update personal information"
+            ],
+            "responses": [
+                "To update your profile, go to your account settings and make the necessary changes.",
+                "Visit the profile section in your account settings to update your information.",
+                "You can edit your profile details by navigating to the account settings page."
+            ]
+        }
+	]
+}
