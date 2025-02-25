@@ -13,6 +13,10 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from pygments.lexers import templates
+
+import chat
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -24,7 +28,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 SECRET_KEY = 'django-insecure-_p*1gctig#p%*e91$0q&qwt=+2c$@_jtq&cun077-fe)nhc9d+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -89,10 +93,7 @@ CACHES = {
            }
        }
    }
-
-WSGI_APPLICATION = 'chat_project.wsgi.application'
 DEVELOPMENT = 'live'
-DEBUG = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

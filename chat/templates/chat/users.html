@@ -117,12 +117,11 @@
             top: 0;
             height:400px;
             max-height:400px;
-            margin: 10;
+            margin: 5;
             flex-grow: 1;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
             display: flex;
             overflow-y: auto;
             flex-direction: column;
@@ -251,7 +250,7 @@
             padding: 15px;
             overflow-y: auto;
             max-height: 500px;
-            background-color: background: linear-gradient(135deg, #ffffff, #f0f0f0);;
+            background-color: background: linear-gradient(135deg, #ffffff, #f0f0f0);
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -789,7 +788,7 @@ $(document).ready(function () {
                         <div class="container">
                             <div class="chat-container2">
                                 <div class="messages" id="chat-messages-${chatPanelId}" class="chat-messages">
-                                {% for message in messages %}
+                                {% for content in contents %}
                                     <div class="message-container {% if message.sender.username == user.username %}me{% else %}other{% endif %}">
                                     {% if message.sender.username != user.username %}
                                     <div class="avatar" id="avatar-pic"><img src="https://img.icons8.com/?size=100&id=nSR7D8Yb2tjC&format=png&color=000000" alt="AV"></div>

@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from . import views
-from .views import users_view, LoginRedirectView, mark_as_read, load_messages, chatbot_response
+from .views import users_view, LoginRedirectView, mark_as_read, load_messages, chatbot_response, custom_404_view
 from django.contrib.auth import views as auth_views
 from .views import custom_logout_view
 
@@ -23,3 +23,4 @@ urlpatterns = [
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('logout/', custom_logout_view, name='logout'),
 ]
+handler = custom_404_view

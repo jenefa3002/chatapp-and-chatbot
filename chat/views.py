@@ -207,3 +207,6 @@ def load_messages(request, sender, recipient):
 def custom_logout_view(request):
     logout(request)
     return redirect('/')
+
+def custom_404_view(request, exception):
+    return render(request, 'chat/error.html', status=404)
