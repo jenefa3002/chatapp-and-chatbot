@@ -4,6 +4,8 @@ from . import views
 from .views import users_view, LoginRedirectView, mark_as_read, load_messages, chatbot_response, custom_404_view
 from django.contrib.auth import views as auth_views
 from .views import custom_logout_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('get-response/', chatbot_response, name="chatbot_response"),
@@ -24,3 +26,5 @@ urlpatterns = [
     path('logout/', custom_logout_view, name='logout'),
 ]
 handler = custom_404_view
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

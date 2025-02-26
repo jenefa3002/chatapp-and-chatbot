@@ -18,7 +18,11 @@ from pygments.lexers import templates
 import chat
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Quick-start development settings - unsuitable for production
@@ -57,7 +61,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 INTERNAL_IPS = ['*']
 ROOT_URLCONF = 'chat_project.urls'
 MEDIA_ROOT = '/assets/media'
@@ -103,11 +109,7 @@ DATABASES = {
 
 SITE_URL = "http://localhost:8000"
 
-STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
 LOGOUT_REDIRECT_URL = '/'
 ASGI_APPLICATION = 'chat_project.asgi.application'
 CHANNEL_LAYERS = {
