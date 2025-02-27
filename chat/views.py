@@ -2,8 +2,9 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.dispatch import receiver
 from django.shortcuts import redirect, get_object_or_404
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, user_logged_in, user_logged_out
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views import View
@@ -20,7 +21,7 @@ import numpy as np
 import tensorflow as tf
 from nltk.tokenize import word_tokenize
 
-model = tf.keras.models.load_model("my_model.keras")
+model = tf.keras.models.load_model("chatbot_model.h5")
 tokenizer = pickle.load(open("tokenizer.pkl", "rb"))
 encoder = pickle.load(open("encoder.pkl", "rb"))
 
@@ -41,9 +42,19 @@ def chatbot_response(request):
         user_message = request.GET.get("message", "")
         if user_message:
             tag = predict_class(user_message)
-            response = next((intent["responses"] for intent in data["intents"] if intent["tag"] == tag), ["I don't understand."])
+            response = next((intent["responses"] for intent in data["intents"] if intent["tag"] == tag), ["sorry please ask questions carefully"])
             return JsonResponse({"response": random.choice(response)})
     return JsonResponse({"response": "Invalid request"})
+
+@receiver(user_logged_in)
+def set_online(sender, request, user, **kwargs):
+    user.is_online = True
+    user.save()
+
+@receiver(user_logged_out)
+def set_offline(sender, request, user, **kwargs):
+    user.is_online = False
+    user.save()
 
 def send_message(sender, recipient, message_text):
     message = PrivateMessage.objects.create(sender=sender, recipient=recipient, text=message_text, is_read=False)
@@ -71,7 +82,7 @@ def login_view(request):
             login(request, user)
             return redirect('users')
         else:
-            return render(request, 'chat/login.html', {'error': 'Invalid credentials'})
+            return render(request, 'chat/login.html', {'error': 'Invalid Credentials'})
     return render(request, 'chat/login.html')
 
 def signup_view(request):
@@ -80,7 +91,7 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, "Registration successful! You are now logged in.")
+            messages.success(request, "Registration successful! You can log in now.")
             return redirect('login')
         else:
             messages.error(request, "Error in registration. Please check the form.")
@@ -109,11 +120,18 @@ def save_message(request):
 def user_list_view(request):
     users = User.objects.exclude(id=request.user.id)
     return render(request, 'chat/users.html', {'users': users})
+    # recipient = get_object_or_404(User, username=request.user.username)
+    # if request.user.is_superuser:
+    #     users = User.objects.exclude(id=request.user.id)
+    # else:
+    #     users = User.objects.filter(userstatus__is_online=True).exclude(id=request.user.id)
+    # return render(request, 'chat/users.html', {'users': users})
 
 @login_required
 def chat_view(request, username):
     user = request.user
     recipient = get_object_or_404(User, username=username)
+    PrivateMessage.objects.filter(sender=request.user, recipient=recipient, is_read=False).update(is_read=True)
     messages = PrivateMessage.objects.filter(
         Q(sender=user, recipient=recipient) | Q(sender=recipient, recipient=user)
     ).order_by('timestamp')
@@ -130,6 +148,8 @@ def screenshare_view(request):
 def users_view(request):
     return render(request, 'chat/users.html')
 
+def custom_500_error(request):
+    return render(request, '500.html', status=500)
 
 @login_required
 def fetch_new_messages(request, username):
@@ -209,4 +229,10 @@ def custom_logout_view(request):
     return redirect('/')
 
 def custom_404_view(request, exception):
-    return render(request, 'chat/error.html', status=404)
+    return render(request, 'chat/404.html', status=404)
+
+def custom_csrf_failure_view(request, reason=""):
+    return render(request, "403_csrf.html", status=403)
+
+def custom_500_view(request, exception):
+    return render(request, '500.html', status=500)

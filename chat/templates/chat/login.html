@@ -106,12 +106,6 @@
         cursor: pointer;
     }
 
-    .chat-body {
-        padding: 10px;
-        height: 200px;
-        overflow-y: auto;
-        background: #f8f9fc;
-    }
 
     .chat-footer {
         display: flex;
@@ -136,12 +130,39 @@
         cursor: pointer;
     }
 
-    .bot-message {
-        background: #e3e6f0;
-        padding: 8px;
-        border-radius: 5px;
-        margin: 5px 0;
-    }
+.chat-body {
+    padding: 10px;
+    height: 250px;
+    overflow-y: auto;
+    background: linear-gradient(to bottom, #f8f9fc, #e3e6f0);
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 14px;
+    word-wrap: break-word;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.user-message {
+    align-self: flex-end;
+    background: linear-gradient(to right, #4e73df, #1e40af);
+    color: white;
+    text-align: right;
+    border-bottom-right-radius: 5px;
+}
+.bot-message {
+    align-self: flex-start;
+    background: linear-gradient(to right, #8a2be2, #5b21b6);
+    color: white;
+    text-align: left;
+    border-bottom-left-radius: 5px;
+}
+
 
     </style>
 </head>
@@ -208,18 +229,29 @@
         if (event.key === "Enter") sendMessage();
     });
     function sendMessage() {
-        let input = document.getElementById("chat-input").value;
-        if (input.trim() === "") return;
-        let chatBody = document.getElementById("chat-body");
-        chatBody.innerHTML += "<div><b>You:</b> " + input + "</div>";
-        fetch("/get-response/?message=" + input)
-            .then(response => response.json())
-            .then(data => {
-                chatBody.innerHTML += "<div><b>Bot:</b> " + data.response + "</div>";
-                chatBody.scrollTop = chatBody.scrollHeight;
-            });
-        document.getElementById("chat-input").value = "";
-    }
+    let input = document.getElementById("chat-input").value;
+    if (input.trim() === "") return;
+    let chatBody = document.getElementById("chat-body");
+
+    // User message
+    let userMsg = document.createElement("div");
+    userMsg.classList.add("message", "user-message");
+    userMsg.innerHTML = `<b>You:</b> ${input}`;
+    chatBody.appendChild(userMsg);
+
+    fetch("/get-response/?message=" + input)
+        .then(response => response.json())
+        .then(data => {
+            // Bot message
+            let botMsg = document.createElement("div");
+            botMsg.classList.add("message", "bot-message");
+            botMsg.innerHTML = `<b>Bot:</b> ${data.response}`;
+            chatBody.appendChild(botMsg);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        });
+
+    document.getElementById("chat-input").value = "";
+}
     </script>
 </body>
 </html>

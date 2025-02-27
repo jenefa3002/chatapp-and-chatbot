@@ -236,7 +236,7 @@ class OnlineStatusConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         if self.user.is_authenticated:
-            await self.set_online_status(self.user, False)  # Mark offline
+            await self.set_online_status(self.user, False)
             await self.channel_layer.group_discard("online_users", self.channel_name)
             await self.broadcast_all_users_status()
 

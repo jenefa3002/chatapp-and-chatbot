@@ -18,6 +18,20 @@ class UserStatus(models.Model):
         if created:
             UserStatus.objects.create(user=instance)
 
+    from django.contrib.auth.signals import user_logged_in, user_logged_out
+    from django.dispatch import receiver
+
+    @receiver(user_logged_in)
+    def set_online(sender, request, user, **kwargs):
+        user.is_online = True
+        user.save()
+
+    @receiver(user_logged_out)
+    def set_offline(sender, request, user, **kwargs):
+        user.is_online = False
+        user.save()
+
+
 class PrivateMessage(models.Model):
     sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
     recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
@@ -25,6 +39,7 @@ class PrivateMessage(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to='chat_files/', blank=True, null=True)
     is_read = models.BooleanField(default=False)
+    is_online = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.sender.username} -> {self.recipient.username}: {self.content}"
@@ -48,6 +63,19 @@ class PrivateMessage(models.Model):
 
     def save(self, *args, **kwargs):
         super(PrivateMessage, self).save(*args, **kwargs)
+
+    from django.contrib.auth.signals import user_logged_in, user_logged_out
+    from django.dispatch import receiver
+
+    @receiver(user_logged_in)
+    def set_online(sender, request, user, **kwargs):
+        user.is_online = True
+        user.save()
+
+    @receiver(user_logged_out)
+    def set_offline(sender, request, user, **kwargs):
+        user.is_online = False
+        user.save()
 
 
 @receiver(post_save, sender=PrivateMessage)
