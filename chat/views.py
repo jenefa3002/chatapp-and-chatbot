@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from keras.src.utils import pad_sequences
+
 from .models import PrivateMessage, UserStatus
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -21,30 +23,86 @@ import numpy as np
 import tensorflow as tf
 from nltk.tokenize import word_tokenize
 
+# model = tf.keras.models.load_model("chatbot_model.h5")
+# with open("tokenizer.pkl", "rb") as file:
+#     tokenizer = pickle.load(file)
+# with open("encoder.pkl", "rb") as file:
+#     encoder = pickle.load(file)
+# with open("intents.json") as file:
+#     data = json.load(file)
+#
+# GREETING_MESSAGE = "Hello! I'm your Ari. How can I assist you today?"
+# def predict_class(text):
+#     """Predict the intent class for a given input text."""
+#     if not text.strip():
+#         return None
+#     tokens = word_tokenize(text.lower())
+#     filtered_tokens = [word for word in tokens if word in tokenizer.word_index]
+#     if not filtered_tokens:
+#         return None
+#     seq = tokenizer.texts_to_sequences([filtered_tokens])
+#     seq = pad_sequences(seq, maxlen=model.input_shape[1], padding="post")
+#     prediction = model.predict(seq)[0]
+#     predicted_index = np.argmax(prediction)
+#     return encoder.classes_[predicted_index]
+#
+#
+# def chatbot_response(request):
+#     if request.method == "GET":
+#         user_message = request.GET.get("message", "").strip()
+#         if not user_message:
+#             return JsonResponse({"response": GREETING_MESSAGE})
+#         tag = predict_class(user_message)
+#         if tag:
+#             intent = next((intent for intent in data["intents"] if intent["tag"] == tag), None)
+#             if intent:
+#                 response = random.choice(intent["patterns"])
+#             else:
+#                 response = "I'm not sure I understand. Can you rephrase?"
+#         else:
+#             response = "Sorry, I couldn't understand that. Please ask again."
+#
+#         return JsonResponse({"response": response})
+#     return JsonResponse({"response": "Invalid request method. Use GET."})
 model = tf.keras.models.load_model("chatbot_model.h5")
-tokenizer = pickle.load(open("tokenizer.pkl", "rb"))
-encoder = pickle.load(open("encoder.pkl", "rb"))
+
+with open("tokenizer.pkl", "rb") as file:
+    tokenizer = pickle.load(file)
+with open("encoder.pkl", "rb") as file:
+    encoder = pickle.load(file)
 
 with open("intents.json") as file:
     data = json.load(file)
 
+GREETING_MESSAGE = "Hello! I'm your Ari. How can I assist you today?"
+
 def predict_class(text):
+    if not text.strip():
+        return None
     tokens = word_tokenize(text.lower())
-    tokens = [word for word in tokens if word in tokenizer.word_index]
-    seq = tokenizer.texts_to_sequences([tokens])
-    seq = tf.keras.preprocessing.sequence.pad_sequences(seq, maxlen=model.input_shape[1], padding="post")
+    filtered_tokens = [word for word in tokens if word in tokenizer.word_index]
+    if not filtered_tokens:
+        return None
+    seq = tokenizer.texts_to_sequences([filtered_tokens])
+    seq = pad_sequences(seq, maxlen=model.input_shape[1], padding="post")
     prediction = model.predict(seq)[0]
     predicted_index = np.argmax(prediction)
+
     return encoder.classes_[predicted_index]
 
 def chatbot_response(request):
     if request.method == "GET":
-        user_message = request.GET.get("message", "")
-        if user_message:
-            tag = predict_class(user_message)
-            response = next((intent["responses"] for intent in data["intents"] if intent["tag"] == tag), ["sorry please ask questions carefully"])
-            return JsonResponse({"response": random.choice(response)})
-    return JsonResponse({"response": "Invalid request"})
+        user_message = request.GET.get("message", "").strip()
+        if not user_message:
+            return JsonResponse({"response": GREETING_MESSAGE})
+        tag = predict_class(user_message)
+        if tag:
+            response_list = next((intent["responses"] for intent in data["intents"] if intent["tag"] == tag), [])
+            response = random.choice(response_list) if response_list else "I'm not sure I understand. Can you rephrase?"
+        else:
+            response = "Sorry, I couldn't understand that. Please ask again."
+        return JsonResponse({"response": response})
+    return JsonResponse({"response": "Invalid request method. Use GET."})
 
 @receiver(user_logged_in)
 def set_online(sender, request, user, **kwargs):
@@ -120,12 +178,6 @@ def save_message(request):
 def user_list_view(request):
     users = User.objects.exclude(id=request.user.id)
     return render(request, 'chat/users.html', {'users': users})
-    # recipient = get_object_or_404(User, username=request.user.username)
-    # if request.user.is_superuser:
-    #     users = User.objects.exclude(id=request.user.id)
-    # else:
-    #     users = User.objects.filter(userstatus__is_online=True).exclude(id=request.user.id)
-    # return render(request, 'chat/users.html', {'users': users})
 
 @login_required
 def chat_view(request, username):

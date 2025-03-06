@@ -1,0 +1,178 @@
+<style>
+    .chatbot-button {
+        position: fixed;
+        bottom: 10px;
+        right: 20px;
+        background-color: #4e73df;
+        color: white;
+        border: none;
+        padding: 15px;
+        border-radius: 50%;
+        font-size: 18px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        z-index: 1000; /* Ensure it's above other elements */
+    }
+    .chatbot-button:hover {
+        background-color: #375ab5;
+    }
+    .chatbot-panel {
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        z-index: 1000; /* Ensure it's above other elements */
+    }
+    .chatbot-header {
+        background-color: #4e73df;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .chatbot-close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    .chatbot-close-btn:hover {
+        color: #f0f0f0;
+    }
+    .chatbot-body {
+        padding: 10px;
+        height: 250px;
+        overflow-y: auto;
+        background: linear-gradient(to bottom, #f8f9fc, #e3e6f0);
+        display: flex;
+        flex-direction: column;
+    }
+    .chatbot-footer {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+    }
+    .chatbot-footer input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+    }
+    .chatbot-footer button {
+        background: #4e73df;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        margin-left: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .chatbot-footer button:hover {
+        background-color: #375ab5;
+    }
+    .chatbot-message {
+        max-width: 80%;
+        padding: 10px 15px;
+        border-radius: 20px;
+        margin: 5px;
+        font-size: 14px;
+        word-wrap: break-word;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .chatbot-user-message {
+        align-self: flex-end;
+        background: linear-gradient(to right, #4e73df, #1e40af);
+        color: white;
+        text-align: right;
+        border-bottom-right-radius: 5px;
+    }
+    .bot-message {
+        align-self: flex-start;
+        background: linear-gradient(to right, #8a2be2, #5b21b6);
+        color: white;
+        text-align: left;
+        border-bottom-left-radius: 5px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<button id="chatbot-btn" class="chatbot-button" aria-label="Open Chatbot">
+    <i class="fas fa-comment-alt"></i>
+</button>
+<div id="chatbot-panel" class="chatbot-panel">
+    <div class="chatbot-header">
+        <span>Ari</span>
+        <button id="chatbot-close-chat" class="chatbot-close-btn" aria-label="Close Chatbot">&times;</button>
+    </div>
+    <div class="chatbot-body" id="chatbot-body"></div>
+    <div class="chatbot-footer">
+        <input type="text" id="chatbot-input" placeholder="Type here..." aria-label="Type your message">
+        <button id="chatbot-send-btn" aria-label="Send Message">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+<script>
+document.getElementById("chatbot-btn").addEventListener("click", () => {
+    const chatBody = document.getElementById("chatbot-body");
+    document.getElementById("chatbot-panel").style.display = "block";
+    if (!chatBody.dataset.greeted) {
+        addBotMessage("Hello! I'm your Ari, How can I assist you today?");
+        chatBody.dataset.greeted = "true";
+    }
+});
+document.getElementById("chatbot-close-chat").addEventListener("click", () => {
+    document.getElementById("chatbot-panel").style.display = "none";
+});
+
+document.getElementById("chatbot-send-btn").addEventListener("click", sendMessage);
+document.getElementById("chatbot-input").addEventListener("keypress", (event) => {
+    if (event.key === "Enter") sendMessage();
+});
+function sendMessage() {
+    const input = document.getElementById("chatbot-input").value.trim();
+    if (!input) return;
+    const chatBody = document.getElementById("chatbot-body");
+    addUserMessage(input);
+    fetch(`/get-response/?message=${encodeURIComponent(input)}`)
+        .then(response => response.json())
+        .then(data => {
+            addBotMessage(data.response);
+            if (data.choices) {
+                addMultipleChoiceOptions(data.choices);
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching bot response:", error);
+        });
+
+    document.getElementById("chatbot-input").value = "";
+}
+function addUserMessage(text) {
+    const chatBody = document.getElementById("chatbot-body");
+    const userMsg = document.createElement("div");
+    userMsg.classList.add("chatbot-message", "chatbot-user-message");
+    userMsg.innerHTML = `<b>You:</b> ${text}`;
+    chatBody.appendChild(userMsg);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+function addBotMessage(text) {
+    const chatBody = document.getElementById("chatbot-body");
+    const botMsg = document.createElement("div");
+    botMsg.classList.add("chatbot-message", "bot-message");
+    botMsg.innerHTML = `<b>Ari:</b> ${text}`;
+    chatBody.appendChild(botMsg);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+</script>

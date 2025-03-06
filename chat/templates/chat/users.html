@@ -54,10 +54,10 @@
             }
         .chat-button {
             position: fixed;
-            bottom: 20px;
+            bottom: 60px;
             right: 20px;
-            width: 60px;
-            height: 60px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: white;
             border: none;
@@ -74,63 +74,66 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: invert(0%);
+            filter: invert(10%);
         }
         .chat-panel {
             font-family: Georgia, serif;
             position: fixed;
-            top: 175px;
+            top: 300px;
             right: -350px;
-            width: 350px;
+            width: 300px;
             height: calc(100% - 50px);
-            max-height:500;
+            max-height:400;
             background: white;
-            border-radius: 15px;
-            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             transition: right 0.3s ease-in-out;
             z-index: 1050;
             display: flex;
+            overflow : hidden;
             flex-direction: column;
         }
         .chat-panel.active {
-            right: 10px;
+            right: 2px;
             }
         .chat-content-panel {
             display: none;
             position: fixed;
-            top: 200px;
+            top: 280px;
             flex: 1;
             font-size:20px;
             background: white;
             height: calc(100% - 70px);
-            max-height: 500px;
-            width: 350px;
+            max-height: 450px;
+            width: 300px;
             box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            transition: right 0.3s ease-in-out;
+            border-radius: 10px;
+            transition: right 0.2s ease-in-out;
+            overflow: hidden;
         }
         .chat-content-panel.active {
              display: block;
         }
         .chat-container2 {
+            position : flex;
             width: 100%;
-            top: 0;
-            height:400px;
-            max-height:400px;
+            top: 10;
+            height:350px;
+            max-height:350px;
             margin: 5;
             flex-grow: 1;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             display: flex;
-            overflow-y: auto;
+            overflow: hidden;
             flex-direction: column;
         }
         .video-container{
             position: relative;
             width: 100%;
             padding-top: 50%;
-            overflow: hidden;
+            overflow-y : auto;
         }
         .video-container video{
             position: absolute;
@@ -145,7 +148,7 @@
             display: flex;
             justify-content: space-between;
             color: white;
-            padding: 18px 20px;
+            padding: 16px 18px;
             align-items: center;
             border-top-left-radius: 15px;
             border-top-right-radius: 15px;
@@ -176,8 +179,8 @@
             max-height: calc(100% - 50px);
         }
         .chat-list li {
-            padding: 12px;
-            margin-bottom: 8px;
+            padding: 6px;
+            margin-bottom: 2px;
             border-radius: 10px;
             background: #f8f9fc;
             display: flex;
@@ -196,8 +199,8 @@
             border-radius: 50%;
         }
         .status-badge {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             margin-left: 10px;
         }
@@ -225,8 +228,8 @@
         }
         .chat-notification {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: -5px;
+            right: 2px;
             background-color: red;
             color: white;
             font-size: 14px;
@@ -236,10 +239,11 @@
             text-align: center;
             line-height: 20px;
             border-radius: 50%;
-            display: none; /* Hidden by default */
+            display: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease, background-color 0.3s ease;
             animation: pulse 1s infinite;
+            overflow-y: auto;
         }
         .chat-notification:hover {
             transform: scale(1.1);
@@ -531,7 +535,7 @@
         .logout-button {
             width: 50px;
             height: 50px;
-            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            background: linear-gradient(135deg, #f0f0f0, #d1d1d1);
             border: none;
             border-radius: 50%;
             display: flex;
@@ -549,7 +553,7 @@
         }
 
         .logout-button:hover {
-            background: linear-gradient(135deg, #4e73df, #6cb2eb);
+            background: white;
         }
         .background-effects{
             background-image: url('/static/img/bg.png');
@@ -671,7 +675,7 @@
         }
 
         .logo:hover {
-            background: linear-gradient(135deg, #4e73df, #6cb2eb); /* Inverted lighter gradient on hover */
+            background: linear-gradient(135deg, #4e73df, #6cb2eb);
         }
 
         .logo img {
@@ -681,6 +685,7 @@
             filter: invert(0%);
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
@@ -692,17 +697,17 @@
         </div>
         <h2>My website</h2>
         <ul class="nav-menu">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Chat</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="/logout">Home</a></li>
+            <li><a href="/users">About</a></li>
             <li><a href="#">Contact</a></li>
+            <li><a href="#" id="chatbot-link">Ari</a></li>
         </ul>
 
         <div class="user-info">
             <img src="{% static 'img/ProfilePic.png' %}" alt="Profile" class="profile-pic">
                 {% csrf_token %}
                 <a href="{% url 'logout' %}" class="logout-button">
-                    <img src="https://img.icons8.com/?size=100&id=tNsa8uiKIfwd&format=png&color=000000" alt="Logout">
+                    <img src="https://img.icons8.com/?size=100&id=HqVUJDljsIvX&format=png&color=000000" alt="Logout">
                 </a>
         </div>
     </header>
@@ -715,7 +720,7 @@
 
 <div class="chat-panel">
     <div class="chat-header">
-        <h5>Chatty Chat</h5>
+        <h5>Chat</h5>
         <button class="close-chat">&times;</button></div>
     <ul class="chat-list">
         {% for user in users %}
@@ -731,6 +736,7 @@
         </ul></div>
     <div class="chat-content-panel"></div>
 </div>
+{% include 'chatbot.html' %}
 <script>
 var onlineSocket = new WebSocket("ws://" + window.location.host + "/ws/online/");
     onlineSocket.onmessage = function(event) {
@@ -772,7 +778,7 @@ $(document).ready(function () {
         let chatMessages = "${chat-messages}";
         let existingPanel = $("#" + chatPanelId);
     if (existingPanel.length) {
-        bringPanelToFront(chatPanelId);
+        updateChatPanelPositions();
         return;
     }
         console.log("Chat Panel", chatPanelId);
@@ -904,9 +910,9 @@ $(document).ready(function () {
     }
 
     function updateChatPanelPositions() {
-        let startRight = 360;
-        let panelWidth = 350;
-        let gap = 10;
+        let startRight = 310;
+        let panelWidth = 300;
+        let gap = 8;
 
         for (let i = chatPanels.length - 1; i >= 0; i--) {
             let panelId = chatPanels[i];

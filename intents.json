@@ -1,1363 +1,286 @@
 {
-    "intents": [
-        {
-            "tag": "greeting",
-            "patterns": [
-                "Hello",
-                "Hi",
-                "Hey",
-                "Good morning",
-                "Good afternoon",
-                "Good evening"
-            ],
-            "responses": [
-                "Hello!",
-                "Hi there!",
-                "Hey!",
-                "Good to see you!",
-                "Welcome! How can I assist you today?"
-            ]
-        },
-        {
-            "tag": "goodbye",
-            "patterns": [
-                "Bye",
-                "Goodbye",
-                "See you later",
-                "See you soon",
-                "Take care"
-            ],
-            "responses": [
-                "Goodbye!",
-                "See you later!",
-                "Take care!",
-                "Have a great day!"
-            ]
-        },
-        {
-            "tag": "thanks",
-            "patterns": [
-                "Thanks",
-                "Thank you",
-                "Thanks a lot",
-                "I appreciate it"
-            ],
-            "responses": [
-                "You're welcome!",
-                "No problem!",
-                "Glad to help!",
-                "Anytime!"
-            ]
-        },
-        {
-            "tag": "login_help",
-            "patterns": [
-                "How do I log in?",
-                "Where is the login page?",
-                "Help me log in",
-                "I need to log in"
-            ],
-            "responses": [
-                "To log in, go to the login page and enter your username and password.",
-                "Click on the login button at the top right and enter your credentials.",
-                "If you have an account, use your email and password to log in."
-            ]
-        },
-        {
-            "tag": "forgot_password",
-            "patterns": [
-                "I forgot my password",
-                "Reset my password",
-                "Can't remember my password"
-            ],
-            "responses": [
-                "You can reset your password by clicking on the 'Forgot Password?' link on the login page.",
-                "Go to the login page and click on 'Forgot Password?' to reset it.",
-                "Visit the password recovery page and follow the steps to reset your password."
-            ]
-        },
-        {
-            "tag": "account_creation",
-            "patterns": [
-                "How do I create an account?",
-                "Sign up process",
-                "Register",
-                "New account"
-            ],
-            "responses": [
-                "To create an account, go to the signup page and enter your details.",
-                "Click on 'Create an Account' on the login page and follow the instructions.",
-                "Visit the registration page and fill in the required details to create your account."
-            ]
-        },
-        {
-            "tag": "account_locked",
-            "patterns": [
-                "My account is locked",
-                "I can't access my account",
-                "Why is my account blocked?"
-            ],
-            "responses": [
-                "Your account may be locked due to multiple failed login attempts. Try resetting your password.",
-                "Contact support to unlock your account.",
-                "If you're unable to access your account, try resetting your password or reach out to support."
-            ]
-        },
-        {
-            "tag": "sign_out",
-            "patterns": [
-                "How do I log out?",
-                "Where is the logout button?",
-                "Sign out"
-            ],
-            "responses": [
-                "Click on your profile at the top right corner and select 'Log Out'.",
-                "To sign out, go to the menu and click 'Logout'.",
-                "You can log out from the settings page or by clicking 'Sign Out' in the navigation bar."
-            ]
-        },
-        {
-            "tag": "security",
-            "patterns": [
-                "Is my account secure?",
-                "How do I secure my login?",
-                "Security tips"
-            ],
-            "responses": [
-                "Use a strong password and enable two-factor authentication for better security.",
-                "Never share your password with anyone and always log out when using a public computer.",
-                "Enable multi-factor authentication to keep your account secure."
-            ]
-        },
-        {
-            "tag": "support",
-            "patterns": [
-                "I need help",
-                "How can I contact support?",
-                "Help center",
-                "Customer support"
-            ],
-            "responses": [
-                "You can reach our support team via the Contact Us page.",
-                "Visit our Help Center for more information and troubleshooting steps.",
-                "If you need assistance, contact our support team through live chat or email."
-            ]
-        },
-        {
-            "tag": "login_help",
-            "patterns": [
-                "How can I log in?",
-                "Where do I enter my credentials?",
-                "Login instructions",
-                "Need help with logging in"
-            ],
-            "responses": [
-                "To log in, please enter your username and password on the login page.",
-                "Go to the login page and provide your credentials.",
-                "Follow the login link at the top of the page and enter your username and password."
-            ]
-        },
-        {
-            "tag": "account_creation",
-            "patterns": [
-                "Steps to create an account",
-                "How to sign up?",
-                "Register a new account",
-                "New user registration"
-            ],
-            "responses": [
-                "To create an account, click on 'Sign Up' and fill in your details.",
-                "Visit the registration page and enter your information to create an account.",
-                "Click on the 'Create an Account' button and follow the prompts."
-            ]
-        },
-        {
-            "tag": "account_locked",
-            "patterns": [
-                "My account is blocked",
-                "Unable to access account",
-                "Account locked due to failed attempts",
-                "Help with locked account"
-            ],
-            "responses": [
-                "If your account is locked, try resetting your password or contact support.",
-                "Your account may be locked due to multiple failed login attempts. Reset your password or reach out to support.",
-                "To unlock your account, follow the password reset steps or get in touch with support."
-            ]
-        },
-        {
-            "tag": "sign_out",
-            "patterns": [
-                "Where is the logout option?",
-                "How to sign out?",
-                "Logging out instructions",
-                "Log off"
-            ],
-            "responses": [
-                "Click on your profile at the top right and select 'Log Out'.",
-                "To log out, go to the settings menu and click 'Logout'.",
-                "You can sign out by clicking 'Log Out' in the user menu."
-            ]
-        },
-        {
-            "tag": "security",
-            "patterns": [
-                "How to secure my account?",
-                "Is my account protected?",
-                "Account security measures",
-                "Enhancing account security"
-            ],
-            "responses": [
-                "Enable two-factor authentication for added security.",
-                "Use a strong, unique password and enable multi-factor authentication.",
-                "Keep your account secure by enabling two-factor authentication and never sharing your password."
-            ]
-        },
-        {
-            "tag": "login_issues",
-            "patterns": [
-                "Why can't I log in?",
-                "Login not working",
-                "Having trouble logging in",
-                "Unable to access my account"
-            ],
-            "responses": [
-                "If you can't log in, ensure your username and password are correct.",
-                "Check if your account is locked or if you've forgotten your password.",
-                "Make sure your credentials are correct and try resetting your password if needed."
-            ]
-        },
-        {
-            "tag": "login_security",
-            "patterns": [
-                "How secure is my login?",
-                "Login protection measures",
-                "Ensuring secure login",
-                "Security for logging in"
-            ],
-            "responses": [
-                "Our login system uses encryption to protect your credentials.",
-                "Enable two-factor authentication to enhance login security.",
-                "Your login is protected with industry-standard security measures."
-            ]
-        },
-        {
-            "tag": "login_help",
-            "patterns": [
-                "Help me sign in",
-                "Where do I log in?",
-                "Login steps",
-                "Instructions to log in"
-            ],
-            "responses": [
-                "You can sign in by entering your username and password on the login page.",
-                "Visit the login page and input your credentials to sign in.",
-                "Follow the 'Login' link and enter your username and password."
-            ]
-        },
-        {
-            "tag": "forgot_password",
-            "patterns": [
-                "Lost my password",
-                "Need to reset my password",
-                "Forgot my login details",
-                "Password recovery help"
-            ],
-            "responses": [
-                "To reset your password, click on the 'Forgot Password?' link on the login page.",
-                "Follow the 'Forgot Password?' link and enter your email to reset your password.",
-                "You can recover your password by following the steps on the password reset page."
-            ]
-        },
-        {
-            "tag": "account_creation",
-            "patterns": [
-                "Create a new account",
-                "Register for an account",
-                "How to sign up?",
-                "Sign up instructions"
-            ],
-            "responses": [
-                "To create an account, click on 'Sign Up' and provide the required information.",
-                "Visit the registration page and enter your details to create an account.",
-                "Click on the 'Create an Account' button and follow the prompts to register."
-            ]
-        },
-        {
-            "tag": "account_locked",
-            "patterns": [
-                "Why is my account locked?",
-                "Account blocked",
-                "Can't access my account",
-                "Unlock my account"
-            ],
-            "responses": [
-                "If your account is locked, try resetting your password or contact support.",
-                "Your account may be locked due to multiple failed login attempts. Reset your password or reach out to support.",
-                "To unlock your account, follow the password reset steps or get in touch with support."
-            ]
-        },
-        {
-            "tag": "sign_out",
-            "patterns": [
-                "Log out process",
-                "Where do I sign out?",
-                "Sign out steps",
-                "How to log off?"
-            ],
-            "responses": [
-                "Click on your profile at the top right and select 'Log Out'.",
-                "To log out, go to the settings menu and click 'Logout'.",
-                "You can sign out by clicking 'Log Out' in the user menu."
-            ]
-        },
-        {
-            "tag": "security",
-            "patterns": [
-                "Improve account security",
-                "How secure is my login?",
-                "Enhance login security",
-                "Security tips for account"
-            ],
-            "responses": [
-                "Enable two-factor authentication for added security.",
-                "Use a strong, unique password and enable multi-factor authentication.",
-                "Keep your account secure by enabling two-factor authentication and never sharing your password."
-            ]
-        },
-        {
-            "tag": "login_issues",
-            "patterns": [
-                "Can't log in",
-                "Login problem",
-                "Trouble with login",
-                "Login not working"
-            ],
-            "responses": [
-                "If you can't log in, ensure your username and password are correct.",
-                "Check if your account is locked or if you've forgotten your password.",
-                "Make sure your credentials are correct and try resetting your password if needed."
-            ]
-        },
-        {
-            "tag": "login_security",
-            "patterns": [
-                "Securing my login",
-                "Login safety measures",
-                "How to protect my login?",
-                "Security for logging in"
-            ],
-            "responses": [
-                "Our login system uses encryption to protect your credentials.",
-                "Enable two-factor authentication to enhance login security.",
-                "Your login is protected with industry-standard security measures."
-            ]
-        },
-        {
-            "tag": "signup_help",
-            "patterns": [
-                "Need help with sign-up",
-                "How to register?",
-                "Steps to sign up",
-                "Creating a new account"
-            ],
-            "responses": [
-                "To sign up, click on 'Register' and enter your information.",
-                "Follow the 'Sign Up' link and provide the required details.",
-                "Visit the registration page and complete the form to create an account."
-            ]
-        },
-        {
-            "tag": "logout_confirmation",
-            "patterns": [
-                "How do I confirm log out?",
-                "Confirming sign out",
-                "Log out confirmation steps",
-                "How to complete sign out?"
-            ],
-            "responses": [
-                "After clicking 'Log Out,' confirm the action if prompted.",
-                "To complete the sign out, click 'Log Out' and confirm if required.",
-                "Make sure to confirm the log out action to successfully sign out."
-            ]
-        },
-        {
-            "tag": "login_help",
-            "patterns": [
-                "Assistance with logging in",
-                "How do I access my account?",
-                "Steps to log in",
-                "Where is the login page?"
-            ],
-            "responses": [
-                "You can log in by clicking on the login button at the top right and entering your credentials.",
-                "Go to the login page and enter your username and password to access your account.",
-                "To log in, follow the 'Login' link and provide your username and password."
-            ]
-        },
-        {
-            "tag": "forgot_password",
-            "patterns": [
-                "Need to reset password",
-                "Can't remember my login details",
-                "Forgot password help",
-                "Reset my password"
-            ],
-            "responses": [
-                "To reset your password, click on 'Forgot Password?' on the login page and follow the instructions.",
-                "Click on 'Forgot Password?' and enter your email to receive reset instructions.",
-                "You can reset your password by following the steps on the password recovery page."
-            ]
-        },
-        {
-            "tag": "account_creation",
-            "patterns": [
-                "How do I create an account?",
-                "Steps to sign up",
-                "Register new account",
-                "Sign up for a new account"
-            ],
-            "responses": [
-                "To create an account, click on 'Sign Up' and fill in the required details.",
-                "Visit the registration page and enter your information to create an account.",
-                "Click on the 'Create an Account' button and follow the prompts to register."
-            ]
-        },
-        {
-            "tag": "account_locked",
-            "patterns": [
-                "My account is locked",
-                "I can't access my account",
-                "My account is blocked",
-                "Unable to access my account",
-                "Why is my account locked?",
-                "Help with locked account"
-            ],
-            "responses": [
-                "If your account is locked, try resetting your password or contact support.",
-                "Your account may be locked due to multiple failed login attempts. Reset your password or reach out to support.",
-                "To unlock your account, follow the password reset steps or get in touch with support."
-            ]
-        },
-        {
-            "tag": "sign_out",
-            "patterns": [
-                "Steps to log out",
-                "How to sign out?",
-                "Log out process",
-                "Where is the logout option?"
-            ],
-            "responses": [
-                "Click on your profile at the top right and select 'Log Out'.",
-                "To log out, go to the settings menu and click 'Logout'.",
-                "You can sign out by clicking 'Log Out' in the user menu."
-            ]
-        },
-        {
-            "tag": "security",
-            "patterns": [
-                "How do I secure my account?",
-                "Is my account safe?",
-                "Account protection tips",
-                "Steps to secure login"
-            ],
-            "responses": [
-                "Enable two-factor authentication for added security.",
-                "Use a strong, unique password and enable multi-factor authentication.",
-                "Keep your account secure by enabling two-factor authentication and never sharing your password."
-            ]
-        },
-        {
-            "tag": "login_issues",
-            "patterns": [
-                "Can't log in",
-                "Login problem",
-                "Having trouble logging in",
-                "Login not working"
-            ],
-            "responses": [
-                "If you can't log in, ensure your username and password are correct.",
-                "Check if your account is locked or if you've forgotten your password.",
-                "Make sure your credentials are correct and try resetting your password if needed."
-            ]
-        },
-        {
-            "tag": "login_security",
-            "patterns": [
-                "How secure is my login?",
-                "Security measures for login",
-                "Protecting my login",
-                "Securing login details"
-            ],
-            "responses": [
-                "Our login system uses encryption to protect your credentials.",
-                "Enable two-factor authentication to enhance login security.",
-                "Your login is protected with industry-standard security measures."
-            ]
-        },
-        {
-            "tag": "signup_help",
-            "patterns": [
-                "Help with sign-up",
-                "How to register?",
-                "Instructions to sign up",
-                "Creating a new account"
-            ],
-            "responses": [
-                "To sign up, click on 'Register' and enter your information.",
-                "Follow the 'Sign Up' link and provide the required details.",
-                "Visit the registration page and complete the form to create an account."
-            ]
-        },
-        {
-            "tag": "logout_confirmation",
-            "patterns": [
-                "Confirm log out",
-                "Log out confirmation steps",
-                "How to confirm sign out?",
-                "Completing log out"
-            ],
-            "responses": [
-                "After clicking 'Log Out,' confirm the action if prompted.",
-                "To complete the sign out, click 'Log Out' and confirm if required.",
-                "Make sure to confirm the log out action to successfully sign out."
-            ]
-        },
-        {
-            "tag": "login_help",
-            "patterns": [
-                "Help me log in",
-                "Where is the login page?",
-                "How do I log in?",
-                "Steps to log in"
-            ],
-            "responses": [
-                "You can log in by clicking on the login button at the top right and entering your credentials.",
-                "Go to the login page and enter your username and password to access your account.",
-                "To log in, follow the 'Login' link and provide your username and password."
-            ]
-        },
-        {
-            "tag": "forgot_password",
-            "patterns": [
-                "Forgot my password",
-                "Need to reset my password",
-                "Can't remember my password",
-                "Reset my password"
-            ],
-            "responses": [
-                "To reset your password, click on 'Forgot Password?' on the login page and follow the instructions.",
-                "Click on 'Forgot Password?' and enter your email to receive reset instructions.",
-                "You can reset your password by following the steps on the password recovery page."
-            ]
-        },
-        {
-            "tag": "account_creation",
-            "patterns": [
-                "Create a new account",
-                "How do I sign up?",
-                "Register a new account",
-                "Sign up steps"
-            ],
-            "responses": [
-                "To create an account, click on 'Sign Up' and fill in the required details.",
-                "Visit the registration page and enter your information to create an account.",
-                "Click on the 'Create an Account' button and follow the prompts to register."
-            ]
-        },
-        {
-            "tag": "sign_out",
-            "patterns": [
-                "How do I log out?",
-                "Where is the logout option?",
-                "Steps to sign out",
-                "Log out process"
-            ],
-            "responses": [
-                "Click on your profile at the top right and select 'Log Out'.",
-                "To log out, go to the settings menu and click 'Logout'.",
-                "You can sign out by clicking 'Log Out' in the user menu."
-            ]
-        },
-        {
-            "tag": "security",
-            "patterns": [
-                "How do I secure my account?",
-                "Is my account secure?",
-                "Account protection tips",
-                "Steps to secure login"
-            ],
-            "responses": [
-                "Enable two-factor authentication for added security.",
-                "Use a strong, unique password and enable multi-factor authentication.",
-                "Keep your account secure by enabling two-factor authentication and never sharing your password."
-            ]
-        },
-        {
-            "tag": "login_issues",
-            "patterns": [
-                "Can't log in",
-                "Login problem",
-                "Trouble with login",
-                "Login not working"
-            ],
-            "responses": [
-                "If you can't log in, ensure your username and password are correct.",
-                "Check if your account is locked or if you've forgotten your password.",
-                "Make sure your credentials are correct and try resetting your password if needed."
-            ]
-        },
-        {
-            "tag": "login_security",
-            "patterns": [
-                "How secure is my login?",
-                "Security measures for login",
-                "Protecting my login",
-                "Securing login details"
-            ],
-            "responses": [
-                "Our login system uses encryption to protect your credentials.",
-                "Enable two-factor authentication to enhance login security.",
-                "Your login is protected with industry-standard security measures."
-            ]
-        },
-        {
-            "tag": "signup_help",
-            "patterns": [
-                "Help with sign-up",
-                "How to register?",
-                "Instructions to sign up",
-                "Creating a new account"
-            ],
-            "responses": [
-                "To sign up, click on 'Register' and enter your information.",
-                "Follow the 'Sign Up' link and provide the required details.",
-                "Visit the registration page and complete the form to create an account."
-            ]
-        },
-        {
-            "tag": "logout_confirmation",
-            "patterns": [
-                "Confirm log out",
-                "Log out confirmation steps",
-                "How to confirm sign out?",
-                "Completing log out"
-            ],
-            "responses": [
-                "After clicking 'Log Out,' confirm the action if prompted.",
-                "To complete the sign out, click 'Log Out' and confirm if required.",
-                "Make sure to confirm the log out action to successfully sign out."
-            ]
-        },
-        {
-            "tag": "password_requirements",
-            "patterns": [
-                "What are the password requirements?",
-                "Password criteria",
-                "Creating a strong password",
-                "Password rules"
-            ],
-            "responses": [
-                "Your password should be at least 8 characters long and include a mix of letters, numbers, and special characters.",
-                "Make sure your password is strong by using at least 8 characters, including uppercase and lowercase letters, numbers, and special symbols.",
-                "A strong password should have at least 8 characters with a combination of letters, numbers, and special symbols."
-            ]
-        },
-        {
-            "tag": "username_availability",
-            "patterns": [
-                "Is this username available?",
-                "Can I use this username?",
-                "Check username availability",
-                "Is my username taken?"
-            ],
-            "responses": [
-                "To check if a username is available, try entering it during the registration process.",
-                "You can check the availability of a username while creating your account.",
-                "If the username is taken, you'll be prompted to choose a different one during sign-up."
-            ]
-        },
-        {
-            "tag": "profile_update",
-            "patterns": [
-                "How do I update my profile?",
-                "Edit my profile information",
-                "Change account details",
-                "Update personal information"
-            ],
-            "responses": [
-                "To update your profile, go to your account settings and make the necessary changes.",
-                "Visit the profile section in your account settings to update your information.",
-                "You can edit your profile details by navigating to the account settings page."
-            ]
-        },
-        {
-            "tag": "account_creation",
-            "patterns": [
-                "How do I create an account?",
-                "Steps to sign up",
-                "Register new account",
-                "Sign up for a new account"
-            ],
-            "responses": [
-                "To create an account, click on 'Sign Up' and fill in the required details.",
-                "Visit the registration page and enter your information to create an account.",
-                "Click on the 'Create an Account' button and follow the prompts to register."
-            ]
-        },
-        {
-            "tag": "login",
-            "patterns": [
-                "How do I log in?",
-                "Sign in to my account",
-                "Where can I enter my login details?",
-                "I can't find the login page"
-            ],
-            "responses": [
-                "Go to the login page and enter your email and password to sign in.",
-                "Click on 'Login' and enter your registered credentials to access your account.",
-                "If you forgot your password, use the 'Forgot Password' option to reset it."
-            ]
-        },
-        {
-            "tag": "forgot_password",
-            "patterns": [
-                "I forgot my password",
-                "How do I reset my password?",
-                "Can't remember my login credentials",
-                "Forgot password, what to do?"
-            ],
-            "responses": [
-                "Click on 'Forgot Password' on the login page and follow the instructions to reset your password.",
-                "Enter your registered email in the password reset section to receive a reset link.",
-                "If you don't receive an email, check your spam folder or try again after a few minutes."
-            ]
-        },
-        {
-            "tag": "password_security",
-            "patterns": [
-                "How to create a strong password?",
-                "Tips for a secure password",
-                "Best practices for passwords",
-                "What makes a password strong?"
-            ],
-            "responses": [
-                "Use at least 8 characters, including uppercase, lowercase, numbers, and special symbols.",
-                "Avoid using common words or easy-to-guess phrases.",
-                "Enable two-factor authentication for extra security."
-            ]
-        },
-        {
-            "tag": "account_recovery",
-            "patterns": [
-                "How can I recover my account?",
-                "My account is locked",
-                "I lost access to my account",
-                "How do I regain access to my account?"
-            ],
-            "responses": [
-                "Use the 'Forgot Password' option to reset your password.",
-                "Contact support if your account is locked or compromised.",
-                "Follow the recovery steps sent to your registered email."
-            ]
-        },
-        {
-            "tag": "two_factor_authentication",
-            "patterns": [
-                "How do I enable two-factor authentication?",
-                "What is 2FA?",
-                "How to secure my account with 2FA?",
-                "Should I enable two-factor authentication?"
-            ],
-            "responses": [
-                "Go to your account settings and enable two-factor authentication for added security.",
-                "2FA requires an additional verification code when logging in, making your account more secure.",
-                "You can use an authenticator app or receive verification codes via SMS."
-            ]
-        },
-        {
-            "tag": "session_expiry",
-            "patterns": [
-                "Why was I logged out automatically?",
-                "What is session timeout?",
-                "How long does my session last?",
-                "Why do I need to log in again?"
-            ],
-            "responses": [
-                "For security reasons, inactive sessions expire after a certain period.",
-                "If you were logged out, simply log in again to continue using your account.",
-                "Enable 'Remember Me' if you want to stay logged in for longer."
-            ]
-        },
-        {
-            "tag": "account_deletion",
-            "patterns": [
-                "How do I delete my account?",
-                "Can I permanently remove my account?",
-                "Steps to close my account",
-                "Delete my profile"
-            ],
-            "responses": [
-                "Go to account settings and select 'Delete Account' to permanently remove your data.",
-                "Once deleted, your account cannot be restored. Make sure to back up important information.",
-                "If you need assistance, contact customer support before deleting your account."
-            ]
-        },
-        {
-            "tag": "suspicious_activity",
-            "patterns": [
-                "I noticed unusual activity on my account",
-                "My account was accessed without my permission",
-                "How do I report a security issue?",
-                "Unauthorized login detected"
-            ],
-            "responses": [
-                "Change your password immediately if you suspect unauthorized access.",
-                "Enable two-factor authentication to protect your account.",
-                "Report suspicious activity to our support team for further investigation."
-            ]
-        },
-        {
-            "tag": "privacy_settings",
-            "patterns": [
-                "How do I update my privacy settings?",
-                "Can I control who sees my information?",
-                "How to make my account private?",
-                "Change visibility of my profile"
-            ],
-            "responses": [
-                "Go to account settings and adjust your privacy preferences.",
-                "You can limit who sees your data by updating your profile settings.",
-                "Enable private mode to restrict public access to your account information."
-            ]
-        },
-        {
-            "tag": "captcha_verification",
-            "patterns": [
-                "Why do I need to complete a CAPTCHA?",
-                "What is CAPTCHA verification?",
-                "How to bypass CAPTCHA?",
-                "I'm having trouble with CAPTCHA"
-            ],
-            "responses": [
-                "CAPTCHA is used to prevent bots and enhance security.",
-                "Follow the on-screen instructions to verify that you are human.",
-                "If CAPTCHA is not loading, try refreshing the page or disabling ad blockers."
-            ]
-        },
-        {
-            "tag": "session_management",
-            "patterns": [
-                "Can I stay logged in?",
-                "How do I log out of all devices?",
-                "Managing active sessions",
-                "Sign out from multiple devices"
-            ],
-            "responses": [
-                "Go to security settings to view and manage active sessions.",
-                "You can log out of all devices for security by clicking 'Log out from all sessions'.",
-                "For added security, enable two-factor authentication and monitor login activity."
-            ]
-        },
-        {
-            "tag": "data_breach_protection",
-            "patterns": [
-                "How do you protect my data?",
-                "What security measures do you have?",
-                "Is my information safe?",
-                "Steps taken to prevent data breaches"
-            ],
-            "responses": [
-                "We use encryption and secure authentication methods to protect user data.",
-                "Your information is stored securely with industry-standard security practices.",
-                "Regular security audits and monitoring help prevent unauthorized access."
-            ]
-        },
-        {
-            "tag": "csrf_error",
-            "patterns": [
-                "Why am I getting a CSRF error?",
-                "CSRF verification failed",
-                "How to fix CSRF error?",
-                "403 CSRF error in Django"
-            ],
-            "responses": [
-                "CSRF protection helps prevent cross-site request forgery attacks.",
-                "Ensure that your request includes the correct CSRF token.",
-                "If you are a developer, check if CSRF middleware is enabled in your Django settings."
-            ]
-        },
-        {
-            "tag": "session_security",
-            "patterns": [
-                "How secure are my sessions?",
-                "What happens if I leave my account logged in?",
-                "Can I be logged out automatically?",
-                "How does Django manage sessions securely?"
-            ],
-            "responses": [
-                "Sessions are secured using session cookies and token-based authentication.",
-                "For security reasons, inactive sessions expire after a set time.",
-                "Django provides secure session storage, but always log out from shared devices."
-            ]
-        },
-        {
-            "tag": "oauth_login",
-            "patterns": [
-                "Can I log in with Google or Facebook?",
-                "Does the site support OAuth login?",
-                "How do I log in using social media?",
-                "Third-party authentication options?"
-            ],
-            "responses": [
-                "You can log in using Google, Facebook, or other third-party authentication providers.",
-                "Check the login page for social login options.",
-                "OAuth login provides an easy and secure way to access your account."
-            ]
-        },
-        {
-            "tag": "brute_force_protection",
-            "patterns": [
-                "What happens if someone tries to guess my password?",
-                "How do you prevent brute force attacks?",
-                "Can someone keep trying to log into my account?",
-                "Is there a login attempt limit?"
-            ],
-            "responses": [
-                "For security, multiple failed login attempts can result in temporary account lockout.",
-                "We use rate limiting and CAPTCHA verification to prevent brute force attacks.",
-                "Enable two-factor authentication for additional security against brute force attacks."
-            ]
-        },
-        {
-            "tag": "account_suspension",
-            "patterns": [
-                "Why was my account suspended?",
-                "How do I regain access to my suspended account?",
-                "Account temporarily disabled",
-                "What to do if my account is suspended?"
-            ],
-            "responses": [
-                "Accounts may be suspended due to security reasons or policy violations.",
-                "If you believe this is a mistake, contact support for further assistance.",
-                "Check your email for any notifications regarding the suspension."
-            ]
-        },
-        {
-            "tag": "phishing_protection",
-            "patterns": [
-                "How do I avoid phishing attacks?",
-                "What is phishing?",
-                "How do I know if an email is real?",
-                "Can someone fake your website?"
-            ],
-            "responses": [
-                "Always check the sender's email address and avoid clicking on suspicious links.",
-                "We never ask for your password via email. Report suspicious messages immediately.",
-                "Ensure you are on our official website before entering your credentials."
-            ]
-        },
-        {
-            "tag": "multi_factor_authentication",
-            "patterns": [
-                "What is MFA?",
-                "Should I enable multi-factor authentication?",
-                "How do I set up MFA?",
-                "What are the benefits of MFA?"
-            ],
-            "responses": [
-                "Multi-factor authentication adds an extra layer of security by requiring a secondary verification step.",
-                "You can enable MFA in account settings to enhance security.",
-                "MFA can use SMS codes, authentication apps, or hardware tokens."
-            ]
-        },
-        {
-            "tag": "role_based_access",
-            "patterns": [
-                "What are user roles?",
-                "How do permissions work?",
-                "Can I change my role in the system?",
-                "What access do different roles have?"
-            ],
-            "responses": [
-                "Roles determine what actions a user can perform in the system.",
-                "Admins can manage roles and permissions in the settings.",
-                "Access is granted based on predefined role-based permissions."
-            ]
-        },
-        {
-            "tag": "malware_protection",
-            "patterns": [
-                "How do you protect my data from malware?",
-                "What if my device has a virus?",
-                "Can malware steal my password?",
-                "How to stay safe from malware?"
-            ],
-            "responses": [
-                "Keep your device updated and use antivirus software to stay protected.",
-                "Avoid downloading suspicious files or clicking on unknown links.",
-                "We use encryption and security monitoring to protect your data from malware."
-            ]
-        },
-        {
-            "tag": "ip_blacklisting",
-            "patterns": [
-                "Why is my IP address blocked?",
-                "How do I unblock my IP?",
-                "IP address blacklisted",
-                "Why can't I access my account?"
-            ],
-            "responses": [
-                "IP addresses may be blocked due to suspicious activity or security concerns.",
-                "If you believe this is an error, contact support with your IP address details.",
-                "Try connecting from a different network or check if your IP is on a blacklist."
-            ]
-        },
-        {
-            "tag": "https_security",
-            "patterns": [
-                "Is my connection secure?",
-                "What is HTTPS?",
-                "Do you use SSL/TLS encryption?",
-                "Why is HTTPS important?"
-            ],
-            "responses": [
-                "Yes, we use HTTPS to encrypt data and ensure secure communication.",
-                "Always check for a lock icon in your browser to verify a secure connection.",
-                "SSL/TLS encryption helps protect sensitive information from being intercepted."
-            ]
-        },
-        {
-            "tag": "data_encryption",
-            "patterns": [
-                "How is my data encrypted?",
-                "Is my personal information safe?",
-                "Do you store passwords securely?",
-                "What encryption methods do you use?"
-            ],
-            "responses": [
-                "We use strong encryption methods to protect user data.",
-                "Passwords are hashed and stored securely to prevent unauthorized access.",
-                "Your personal information is encrypted in transit and at rest for security."
-            ]
-        },
-        {
-            "tag": "cookie_policy",
-            "patterns": [
-                "What are cookies used for?",
-                "Do you track user activity?",
-                "How do I manage cookies?",
-                "Why do I see a cookie banner?"
-            ],
-            "responses": [
-                "Cookies help improve user experience by storing session data.",
-                "You can manage your cookie preferences in browser settings.",
-                "We use cookies to provide personalized services and enhance security."
-            ]
-        },
-        {
-            "tag": "gdpr_compliance",
-            "patterns": [
-                "How do you comply with GDPR?",
-                "Can I request my data?",
-                "What are my data rights?",
-                "How do I delete my personal data?"
-            ],
-            "responses": [
-                "We comply with GDPR regulations to protect user privacy.",
-                "You can request a copy of your data or ask for deletion by contacting support.",
-                "Your data is handled in accordance with privacy laws and security best practices."
-            ]
-        },
-        {
-            "tag": "account_lockout",
-            "patterns": [
-                "Why is my account locked?",
-                "How do I unlock my account?",
-                "Too many failed login attempts",
-                "Account temporarily locked due to security reasons"
-            ],
-            "responses": [
-                "Your account may be locked due to multiple failed login attempts.",
-                "Try resetting your password or contact support for assistance.",
-                "Wait for a certain period before attempting to log in again."
-            ]
-        },
-        {
-            "tag": "report_bug",
-            "patterns": [
-                "How do I report a bug?",
-                "Found a security issue",
-                "Report a vulnerability",
-                "Bug bounty program"
-            ],
-            "responses": [
-                "If you find a bug, please report it via our support page.",
-                "Security vulnerabilities should be reported through our responsible disclosure program.",
-                "We appreciate responsible reporting of issues and take security seriously."
-            ]
-        },
-        {
-            "tag": "password_reset",
-            "patterns": [
-                "How do I reset my password?",
-                "I forgot my password",
-                "Change my account password",
-                "Reset login credentials"
-            ],
-            "responses": [
-                "To reset your password, click on 'Forgot Password' and follow the instructions.",
-                "A password reset link will be sent to your registered email.",
-                "Ensure your new password is strong and not used elsewhere."
-            ]
-        },
-        {
-            "tag": "account_deletion",
-            "patterns": [
-                "How do I delete my account?",
-                "Remove my account permanently",
-                "Can I deactivate my account?",
-                "Delete all my data"
-            ],
-            "responses": [
-                "You can request account deletion from your settings or by contacting support.",
-                "Account deletion is permanent and cannot be undone.",
-                "If you wish to take a break, consider deactivating your account instead."
-            ]
-        },
-        {
-            "tag": "login_issues",
-            "patterns": [
-                "I can't log in",
-                "Login is not working",
-                "Why am I getting login errors?",
-                "Failed login attempt"
-            ],
-            "responses": [
-                "Check your username and password and try again.",
-                "If you forgot your password, use the reset password option.",
-                "Ensure your account is not locked or temporarily suspended."
-            ]
-        },
-        {
-            "tag": "email_verification",
-            "patterns": [
-                "Why do I need to verify my email?",
-                "How do I confirm my email?",
-                "Email verification not working",
-                "I didn't receive a verification email"
-            ],
-            "responses": [
-                "Email verification ensures account security and prevents fraud.",
-                "Check your spam folder if you haven't received the verification email.",
-                "You can resend the verification email from your account settings."
-            ]
-        },
-        {
-            "tag": "account_recovery",
-            "patterns": [
-                "How do I recover my account?",
-                "I lost access to my account",
-                "Recover deleted account",
-                "My account was hacked"
-            ],
-            "responses": [
-                "Try resetting your password and verifying your email.",
-                "Contact support if you suspect unauthorized access.",
-                "If your account was deleted, recovery may not be possible."
-            ]
-        },
-        {
-            "tag": "api_security",
-            "patterns": [
-                "How do you secure your API?",
-                "API authentication methods",
-                "Protecting API endpoints",
-                "Rate limiting in APIs"
-            ],
-            "responses": [
-                "We use API keys, OAuth, and JWT for authentication.",
-                "Rate limiting prevents abuse and protects API endpoints.",
-                "All sensitive API calls require authentication and encryption."
-            ]
-        },
-        {
-            "tag": "firewall_protection",
-            "patterns": [
-                "Do you use a firewall?",
-                "How do firewalls protect my data?",
-                "What is a web application firewall?",
-                "Firewall protection for websites"
-            ],
-            "responses": [
-                "Yes, we use firewalls to filter malicious traffic.",
-                "A Web Application Firewall (WAF) helps block unauthorized access.",
-                "Firewalls prevent attacks like SQL injections and cross-site scripting."
-            ]
-        },
-        {
-            "tag": "two_factor_authentication",
-            "patterns": [
-                "What is two-factor authentication?",
-                "How do I enable 2FA?",
-                "Benefits of 2FA?",
-                "Why should I use two-step verification?"
-            ],
-            "responses": [
-                "Two-factor authentication (2FA) adds an extra layer of security.",
-                "Enable 2FA in your settings using an authentication app or SMS.",
-                "2FA helps prevent unauthorized access even if your password is stolen."
-            ]
-        },
-        {
-            "tag": "sql_injection",
-            "patterns": [
-                "What is SQL injection?",
-                "How do you prevent SQL injections?",
-                "Can SQL injections hack my account?",
-                "How to secure databases from SQL attacks?"
-            ],
-            "responses": [
-                "SQL injection is an attack that manipulates database queries.",
-                "We prevent SQL injections by using prepared statements and ORM security.",
-                "Never enter suspicious queries into input fields to stay safe."
-            ]
-        },
-        {
-            "tag": "data_breach",
-            "patterns": [
-                "What happens if there's a data breach?",
-                "How do you handle security breaches?",
-                "Can my data be leaked?",
-                "How do you secure my personal data?"
-            ],
-            "responses": [
-                "We use strong encryption to protect user data.",
-                "In case of a breach, affected users are notified immediately.",
-                "Regular security audits help prevent data leaks."
-            ]
-        },
-        {
-            "tag": "backup_and_recovery",
-            "patterns": [
-                "Do you backup user data?",
-                "How often are backups taken?",
-                "Can I restore lost data?",
-                "Data recovery options?"
-            ],
-            "responses": [
-                "We perform regular backups to ensure data safety.",
-                "Backups are securely stored and encrypted.",
-                "Contact support if you need help recovering lost data."
-            ]
-        },
-        {
-            "tag": "session_timeout",
-            "patterns": [
-                "Why did I get logged out automatically?",
-                "What is session timeout?",
-                "How long does my session last?",
-                "Can I change my session timeout duration?"
-            ],
-            "responses": [
-                "Sessions automatically expire after a period of inactivity for security reasons.",
-                "You can log in again to continue using your account.",
-                "For security, session timeout settings may not be customizable."
-            ]
-        },
-        {
-            "tag": "browser_security",
-            "patterns": [
-                "What browsers are supported?",
-                "Can I use an outdated browser?",
-                "How do I ensure browser security?",
-                "Are browser extensions safe?"
-            ],
-            "responses": [
-                "We support modern browsers like Chrome, Firefox, Edge, and Safari.",
-                "Using outdated browsers may expose you to security risks.",
-                "Always update your browser and avoid unverified extensions."
-            ]
-        },
-        {
-            "tag": "spam_protection",
-            "patterns": [
-                "How do you prevent spam?",
-                "Why was my comment flagged as spam?",
-                "How do I avoid getting flagged as spam?",
-                "Do you use CAPTCHA?"
-            ],
-            "responses": [
-                "We use CAPTCHA and AI-based filtering to prevent spam.",
-                "Avoid posting repetitive or suspicious content to stay unflagged.",
-                "Spam protection helps keep the community safe from bots."
-            ]
-        },
-        {
-            "tag": "secure_coding_practices",
-            "patterns": [
-                "What are best practices for secure coding?",
-                "How do you ensure secure code?",
-                "Secure coding guidelines?",
-                "Avoiding security vulnerabilities in code?"
-            ],
-            "responses": [
-                "We follow OWASP security guidelines for safe coding.",
-                "Regular code reviews help prevent vulnerabilities.",
-                "Using proper validation and escaping user input prevents attacks."
-            ]
-        },
-        {
-            "tag": "compliance_standards",
-            "patterns": [
-                "Are you GDPR compliant?",
-                "What security standards do you follow?",
-                "Do you comply with PCI DSS?",
-                "How do you handle user privacy?"
-            ],
-            "responses": [
-                "We comply with GDPR, CCPA, and other global privacy regulations.",
-                "Security measures align with industry standards like ISO 27001.",
-                "We ensure user data is handled securely and transparently."
-            ]
-        },
-        {
-            "tag": "bot_detection",
-            "patterns": [
-                "How do you detect bots?",
-                "Preventing bot attacks?",
-                "Do you use CAPTCHA?",
-                "What is reCAPTCHA?"
-            ],
-            "responses": [
-                "We use AI-based bot detection and CAPTCHA to prevent automated attacks.",
-                "Suspicious behavior is flagged to protect accounts from bot abuse.",
-                "reCAPTCHA helps differentiate between real users and bots."
-            ]
-        },
-        {
-            "tag": "I_am",
-            "patterns":[
-                "who are you?",
-                "what is your purpose?",
-                "what are you?",
-                "can you help me?",
-                "what can you do?",
-                "your purpose",
-                "need your help!!",
-                "need help",
-                "how are you?"
-            ],
-            "responses": [
-                "Hello, I'm a chat bot",
-                "I can assist you with your log_in/log_out/sign_up tasks",
-                "I'm a chat bot created by programmer",
-                "Yes! Helping you was my greatest pleasure!!",
-                "I can help you with some basic task",
-                "what can I do for you?",
-                "Pleased to help you"
-
-            ]
-        }
-    ]
+  "intents": [
+    {
+      "tag": "overview",
+      "patterns": [
+        "What is Simpliance Remo?",
+        "Explain Simpliance Remo.",
+        "What is Simpliance?",
+        "Tell me about Simpliance Remo.",
+        "Why use Simpliance Remo?",
+        "What does Simpliance Remo do?",
+        "What is this platform?",
+        "What is Simpliance Remo used for?"
+      ],
+      "responses": [
+        "Simpliance Remo is an end-to-end E-Compliance management platform that helps companies of all sizes maintain compliance, avoid penalties, and manage risks related to legal, policy, or ethical violations.",
+        "It’s a comprehensive compliance platform designed to help businesses proactively manage compliance, avoid reputational damage, and ensure operational continuity.",
+        "Simpliance Remo is a tool that helps organizations identify, prioritize, and manage compliance risks, ensuring they meet legal and ethical standards."
+      ]
+    },
+    {
+      "tag": "Device_support",
+      "patterns": [
+        "What devices support Simpliance Remo?",
+        "Can I use Simpliance Remo on mobile?",
+        "Is Simpliance Remo available for iOS?",
+        "Does Simpliance Remo work on Android?",
+        "What operating systems does Simpliance Remo support?",
+        "Can I use Simpliance Remo on my laptop?",
+        "Is Simpliance Remo compatible with tablets?",
+        "Does Simpliance Remo work on PCs?"
+      ],
+      "responses": [
+        "Simpliance Remo is compatible with iOS (iPhone, iPad, iPod) and Android devices, as well as PCs and laptops.",
+        "You can use Simpliance Remo on mobile phones, tablets, laptops, and desktops running iOS or Android.",
+        "Yes, Simpliance Remo supports both iOS and Android operating systems, making it accessible on a wide range of devices."
+      ]
+    },
+    {
+      "tag": "product_overview",
+      "patterns": [
+        "What products does Simpliance Remo offer?",
+        "What is included in Simpliance Remo?",
+        "What features does Simpliance Remo have?",
+        "What does Simpliance Remo provide?",
+        "What tools are available in Simpliance Remo?",
+        "What is the product of Simpliance Remo?"
+      ],
+      "responses": [
+        "Simpliance Remo is a cloud-based SaaS platform that offers compliance task tracking, scheduling, and a secure virtual data room for record storage.",
+        "It provides tools for automating compliance tasks, tracking progress, and storing compliance records securely in the cloud.",
+        "Simpliance Remo includes features like task automation, compliance tracking, and a secure virtual data room for managing compliance records."
+      ]
+    },
+    {
+      "tag": "work",
+      "patterns": [
+        "How does Simpliance Remo work?",
+        "What is the working process of Simpliance Remo?",
+        "How does this platform function?",
+        "Can you explain how Simpliance Remo operates?",
+        "What is the workflow of Simpliance Remo?"
+      ],
+      "responses": [
+        "Simpliance Remo automates compliance tasks, tracks progress, and sends notifications to ensure timely compliance with state and central laws.",
+        "It works by automating compliance processes, tracking tasks, and providing alerts to help users stay on top of their compliance requirements.",
+        "The platform ensures compliance by automating tasks, tracking deadlines, and sending reminders to users."
+      ]
+    },
+    {
+      "tag": "operational_highlights",
+      "patterns": [
+        "How often are updates provided?",
+        "What sources are used for compliance updates?",
+        "Can I get alerts for regulatory changes?",
+        "How does Simpliance Remo track compliance impacts?",
+        "Can I access historical compliance updates?",
+        "What documents are included in the knowledge repository?",
+        "How is the repository organized?",
+        "How are compliance records stored securely?",
+        "Is the repository user-friendly?",
+        "Can I export compliance records?"
+      ],
+      "responses": [
+        "Simpliance Remo provides regular updates on new regulations and ensures secure, centralized storage of compliance records.",
+        "The platform offers a comprehensive knowledge repository, automated alerts, and tools for exporting compliance records.",
+        "You can access historical updates, track compliance impacts, and export records for audits or reviews."
+      ]
+    },
+    {
+      "tag": "Registration_Process",
+      "patterns": [
+        "How do I register for Simpliance Remo?",
+        "What is the registration process?",
+        "How do I create an account?",
+        "What do I need to register?",
+        "How long is the registration link valid?"
+      ],
+      "responses": [
+        "To register, create a unique user ID and password. The registration link is valid for 48 hours.",
+        "You need to complete the registration process within 48 hours. Contact the admin if the link expires.",
+        "Register by creating a user ID and password. Ensure you complete the process before the link expires."
+      ]
+    },
+    {
+      "tag": "Login_process",
+      "patterns": [
+        "How do I log in to Simpliance Remo?",
+        "What are the login steps?",
+        "How do I access my account?",
+        "What credentials do I need to log in?",
+        "Can I log in from any device?"
+      ],
+      "responses": [
+        "Log in using your user ID and password at https://login.simplianceglobal.com.",
+        "Enter your credentials and the captcha to log in. You can access your account from any supported device.",
+        "To log in, visit the login page, enter your user ID, password, and captcha, then click 'Login.'"
+      ]
+    },
+    {
+      "tag": "Home_page",
+      "patterns": [
+        "What is on the home page?",
+        "What can I see on the dashboard?",
+        "What widgets are available?",
+        "How do I navigate the home page?",
+        "What does the home page display?"
+      ],
+      "responses": [
+        "The home page displays a welcome message and customizable widgets like Compliance Status, Compliance Trend, and Risk Chart.",
+        "You can explore widgets like Compliance Status, Overdue Tasks, and User Scorecard on the home page.",
+        "The home page provides an overview of your compliance status, trends, and tasks through interactive widgets."
+      ]
+    },
+    {
+      "tag": "dashboard_features",
+      "patterns": [
+        "What features are on the dashboard?",
+        "What can I do on the dashboard?",
+        "How do I use the dashboard?",
+        "What does the dashboard show?",
+        "Can I customize the dashboard?"
+      ],
+      "responses": [
+        "The dashboard provides an at-a-glance view of compliance status, trends, and risks. You can customize widgets and download charts.",
+        "You can view compliance trends, overdue tasks, and risk charts on the dashboard. Charts can be downloaded in multiple formats.",
+        "The dashboard offers tools to track compliance, view trends, and manage risks. You can customize it to suit your needs."
+      ]
+    },
+    {
+      "tag": "Criticality_Risk_Analysis",
+      "patterns": [
+        "What is the Criticality Chart?",
+        "How does risk analysis work?",
+        "What are the criticality factors?",
+        "How do I evaluate risks?",
+        "Can I customize risk factors?"
+      ],
+      "responses": [
+        "The Criticality Chart evaluates risks based on factors like financial exposure, prosecution, and fines. You can customize these factors.",
+        "Risk analysis in Simpliance Remo uses factors like Penal Financial Exposure, Prosecution Exposure, and Simple Fines to assess risks.",
+        "You can customize criticality factors to align with your organization’s risk management strategy."
+      ]
+    },
+    {
+      "tag": "Multi_Factor_Authentication_MFA",
+      "patterns": [
+        "What is MFA in Simpliance Remo?",
+        "How does MFA work?",
+        "Is MFA mandatory?",
+        "What are the MFA steps?",
+        "Can I disable MFA?"
+      ],
+      "responses": [
+        "MFA requires users to provide two or more authentication factors, such as a password and OTP, to access Simpliance Remo.",
+        "MFA enhances security by requiring additional verification, like an OTP sent to your mobile number, during login.",
+        "MFA can be enabled or disabled by the admin. It adds an extra layer of security to your account."
+      ]
+    },
+    {
+      "tag": "Single Sign On (SSO)",
+      "patterns": [
+        "What is SSO in Simpliance Remo?",
+        "How do I enable SSO?",
+        "Can I use SSO for multiple apps?",
+        "What are the benefits of SSO?",
+        "How do I configure SSO?"
+      ],
+      "responses": [
+        "SSO allows you to access multiple applications using one set of credentials. Contact the admin to enable SSO.",
+        "To enable SSO, contact the Simpliance Remo admin. Once enabled, you can access multiple apps with a single login.",
+        "SSO simplifies login processes and enhances security by allowing access to multiple apps with one set of credentials."
+      ]
+    },
+    {
+      "tag": "profile",
+      "patterns": [
+        "How do I view my profile?",
+        "What details are in my profile?",
+        "Can I update my profile?",
+        "What is the View Profile tab?",
+        "Where can I see my user details?"
+      ],
+      "responses": [
+        "You can view your profile details, such as name, email, and contact information, in the View Profile tab.",
+        "The View Profile tab displays your personal and organizational details, including your user ID and group information.",
+        "Your profile includes details like your name, email, contact number, and user group. Contact the admin to update this information."
+      ]
+    },
+    {
+      "tag": "Change_Password",
+      "patterns": [
+        "How do I change my password?",
+        "Where is the Change Password option?",
+        "Can I reset my password?",
+        "What if I forget my password?",
+        "How do I update my password?"
+      ],
+      "responses": [
+        "You can change your password in the Change Password tab. Ensure your new password meets the security requirements.",
+        "To change your password, go to the Change Password tab and enter your current and new passwords.",
+        "If you forget your password, use the 'Forgot Password' option to reset it."
+      ]
+    },
+    {
+      "tag": "Settings",
+      "patterns": [
+        "How do I configure account settings?",
+        "What are account settings?",
+        "How do I select a legal entity?",
+        "Can I change my approval level?",
+        "Where are the account settings?"
+      ],
+      "responses": [
+        "Configure account settings by selecting a legal entity and setting your approval level in the Account Settings tab.",
+        "Account settings allow you to select a legal entity and define your approval level for compliance tasks.",
+        "You can update your account settings, including legal entity and approval level, in the Account Settings tab."
+      ]
+    },
+    {
+      "tag": "Mail_Settings",
+      "patterns": [
+        "How do I configure mail settings?",
+        "Can I disable email notifications?",
+        "What is the Mail On/Off feature?",
+        "How do I set email preferences?",
+        "Where are mail settings located?"
+      ],
+      "responses": [
+        "You can configure mail settings in the My Account-Settings tab. Group Admins can enable or disable email notifications.",
+        "Mail settings allow you to control email notifications. Group Admins can use the Mail On/Off feature to set preferences.",
+        "To configure mail settings, go to the My Account-Settings tab and adjust your email preferences."
+      ]
+    },
+    {
+      "tag": "Reminder_Settings",
+      "patterns": [
+        "How do I set reminders?",
+        "What are reminder settings?",
+        "Can I customize reminder frequency?",
+        "How do I manage reminders?",
+        "Where are reminder settings located?"
+      ],
+      "responses": [
+        "You can set reminders for compliance tasks in the Reminder Settings tab. Customize the number of days for reminders.",
+        "Reminder settings allow you to configure alerts for overdue tasks and reassign blocked Service Providers.",
+        "To manage reminders, go to the Reminder Settings tab and customize the frequency and recipients."
+      ]
+    },
+    {
+      "tag": "Theme and Logout",
+      "patterns": [
+        "How do I change the theme?",
+        "Can I customize the interface?",
+        "How do I log out?",
+        "Where is the logout option?",
+        "How do I change the backdrop color?"
+      ],
+      "responses": [
+        "You can change the backdrop color in the Theme tab to personalize the interface.",
+        "To log out, click the Log Out option in the menu. You will be redirected to the login page.",
+        "Customize the interface by changing the backdrop color in the Theme tab. Log out using the Log Out option."
+      ]
+    }
+  ]
 }
