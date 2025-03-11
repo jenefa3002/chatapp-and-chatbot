@@ -34,7 +34,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: linear-gradient(135deg, #4e73df, #6cb2eb);
+            background-color: #4e73df;
             color: white;
             padding: 15px 20px;
             font-size: 20px;
@@ -76,6 +76,7 @@
             object-fit: contain;
             filter: invert(10%);
         }
+
         .chat-panel {
             font-family: Georgia, serif;
             position: fixed;
@@ -114,26 +115,44 @@
         .chat-content-panel.active {
              display: block;
         }
+        .container{
+            position: flex;
+        }
         .chat-container2 {
             position : flex;
             width: 100%;
             top: 10;
-            height:350px;
+            height:340px;
             max-height:350px;
             margin: 5;
             flex-grow: 1;
-            background-color: #ffffff;
+            background: linear-gradient(to bottom, #f8f9fc, #e3e6f0);
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             display: flex;
             overflow: hidden;
             flex-direction: column;
         }
+
+    .screen-share-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .localVideo, .remoteVideo {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
         .video-container{
             position: relative;
             width: 100%;
-            padding-top: 50%;
-            overflow-y : auto;
+            height: 200px; /* Fixed height for scrollability */
+            overflow-y: auto; /* Make it scrollable */
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-top: 10px;
         }
         .video-container video{
             position: absolute;
@@ -144,7 +163,7 @@
         }
         .chat-header {
             font-family: Georgia, serif;
-            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            background-color: #4e73df;
             display: flex;
             justify-content: space-between;
             color: white;
@@ -179,7 +198,7 @@
             max-height: calc(100% - 50px);
         }
         .chat-list li {
-            padding: 6px;
+            padding: 4px;
             margin-bottom: 2px;
             border-radius: 10px;
             background: #f8f9fc;
@@ -254,6 +273,8 @@
             padding: 15px;
             overflow-y: auto;
             max-height: 500px;
+            word-wrap: break-word;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             background-color: background: linear-gradient(135deg, #ffffff, #f0f0f0);
             display: flex;
             flex-direction: column;
@@ -297,22 +318,16 @@
             transition: transform 0.2s ease-in-out;
         }
         .message-container.me .message-bubble {
-            background: linear-gradient(135deg, #6cb2eb, #4e73df);
+            background: linear-gradient(to right, #4e73df, #1e40af);
             color: white;
-            text-align: left;
+            text-align: right;
             border-bottom-right-radius: 5px;
         }
-        .message-container.me .message-bubble:hover {
-            transform: scale(1.03);
-        }
         .message-container.other .message-bubble {
-            background: linear-gradient(135deg, #f0f0f0, #d1d1d1);
-            color: #000;
+            background: linear-gradient(to right, #8a2be2, #5b21b6);
+            color: white;
             text-align: left;
             border-bottom-left-radius: 5px;
-        }
-        .message-container.other .message-bubble:hover {
-            transform: scale(1.03);
         }
         .message-timestamp {
             font-size: 0.75rem;
@@ -360,27 +375,26 @@
             align-items: center;
             padding: 5px;
             background-color: #fff;
+            border-radius: 5px;
             border-top: 1px solid #ccc;
             gap: 5px;
         }
         .chat-input textarea {
             flex: 1;
             resize: none;
+            flex: 1;
+            padding: 8px;
             border: 1px solid #ccc;
-            border-radius: 20px;
-            padding: 5px 5px;
-            font-size: 1rem;
-            height: 30px;
+            border-radius: 5px;
             outline: none;
-            background-color: #f9f9f9;
         }
         .chat-input button {
-            background-color: #075E54;
+            background: #4e73df;
             color: white;
             border: none;
-            border-radius: 30px;
-            padding: 5px 5px;
-            font-size: 1rem;
+            padding: 8px 12px;
+            margin-left: 5px;
+            border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
@@ -396,18 +410,18 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
         .message-input {
-            width: 85%;
+            width: 100%;
             padding: 10px;
             background-color: linear-gradient(135deg, #6cb2eb, #4e73df);
             border: none;
-            border-radius: 20px;
+            border-radius: 5px;
             font-size: 16px;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
             margin-right: 10px;
         }
         .send-btn {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, #6cb2eb, #4e73df);
             border: none;
             border-radius: 50%;
@@ -428,8 +442,8 @@
         }
 
         .shareBtn {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, #6cb2eb, #4e73df);
             border: none;
             border-radius: 50%;
@@ -965,51 +979,101 @@ $(document).ready(function () {
         shareSocket.onopen = () => console.log("Screen Share WebSocket connected");
         shareSocket.onerror = (error) => console.error("Screen Share WebSocket error:", error);
         shareSocket.onclose = () => console.warn("Screen Share WebSocket closed");
-        $(`#shareBtn-${chatPanelId}`).click(async function () {
-            try {
-                console.log("Starting screen share...");
-                localStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-                localVideo.srcObject = localStream;
-                peerConnection = new RTCPeerConnection(config);
-                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-                peerConnection.onicecandidate = event => {
-                    if (event.candidate) {
-                        console.log("Sending ICE Candidate:", event.candidate);
-                        shareSocket.send(JSON.stringify({ candidate: event.candidate }));
-                    }
-                };
-                peerConnection.ontrack = event => {
-                    console.log("Receiving remote stream...");
-                    remoteVideo.srcObject = event.streams[0];
-                };
-                const offer = await peerConnection.createOffer();
-                await peerConnection.setLocalDescription(offer);
-                shareSocket.send(JSON.stringify({ offer: offer }));
-            } catch (error) {
-                console.error("Error accessing display media:", error);
-            }
-        });
-        shareSocket.onmessage = async function (event) {
-            let data = JSON.parse(event.data);
-            console.log("Received WebRTC message:", data);
+<!--        $(`#shareBtn-${chatPanelId}`).click(async function () {-->
+<!--            try {-->
+<!--                console.log("Starting screen share...");-->
+<!--                localStream = await navigator.mediaDevices.getDisplayMedia({ video: true });-->
+<!--                localVideo.srcObject = localStream;-->
+<!--                peerConnection = new RTCPeerConnection(config);-->
+<!--                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));-->
+<!--                peerConnection.onicecandidate = event => {-->
+<!--                    if (event.candidate) {-->
+<!--                        console.log("Sending ICE Candidate:", event.candidate);-->
+<!--                        shareSocket.send(JSON.stringify({ candidate: event.candidate }));-->
+<!--                    }-->
+<!--                };-->
+<!--                peerConnection.ontrack = event => {-->
+<!--                    console.log("Receiving remote stream...");-->
+<!--                    remoteVideo.srcObject = event.streams[0];-->
+<!--                };-->
+<!--                const offer = await peerConnection.createOffer();-->
+<!--                await peerConnection.setLocalDescription(offer);-->
+<!--                shareSocket.send(JSON.stringify({ offer: offer }));-->
+<!--            } catch (error) {-->
+<!--                console.error("Error accessing display media:", error);-->
+<!--            }-->
+<!--        });-->
+<!--        shareSocket.onmessage = async function (event) {-->
+<!--            let data = JSON.parse(event.data);-->
+<!--            console.log("Received WebRTC message:", data);-->
 
-            if (data.offer) {
-                peerConnection = new RTCPeerConnection(config);
-                peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+<!--            if (data.offer) {-->
+<!--                peerConnection = new RTCPeerConnection(config);-->
+<!--                peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));-->
 
-                localStream = await navigator.mediaDevices.getUserMedia({ video: true });
-                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-                localVideo.srcObject = localStream;
+<!--                localStream = await navigator.mediaDevices.getUserMedia({ video: true });-->
+<!--                localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));-->
+<!--                localVideo.srcObject = localStream;-->
 
-                const answer = await peerConnection.createAnswer();
-                await peerConnection.setLocalDescription(answer);
-                shareSocket.send(JSON.stringify({ answer: answer }));
-            } else if (data.answer) {
-                peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
-            } else if (data.candidate) {
-                peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
-            }
-        };
+<!--                const answer = await peerConnection.createAnswer();-->
+<!--                await peerConnection.setLocalDescription(answer);-->
+<!--                shareSocket.send(JSON.stringify({ answer: answer }));-->
+<!--            } else if (data.answer) {-->
+<!--                peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));-->
+<!--            } else if (data.candidate) {-->
+<!--                peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));-->
+<!--            }-->
+<!--        };-->
+ $(`#shareBtn-${chatPanelId}`).click(async function () {
+        try {
+            console.log("Starting screen share...");
+            localStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+            localVideo.srcObject = localStream;
+
+            peerConnection = new RTCPeerConnection(config);
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+
+            peerConnection.onicecandidate = event => {
+                if (event.candidate) {
+                    console.log("Sending ICE Candidate:", event.candidate);
+                    shareSocket.send(JSON.stringify({ candidate: event.candidate }));
+                }
+            };
+
+            peerConnection.ontrack = event => {
+                console.log("Receiving remote stream...");
+                remoteVideo.srcObject = event.streams[0];
+            };
+
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            shareSocket.send(JSON.stringify({ offer: offer }));
+        } catch (error) {
+            console.error("Error accessing display media:", error);
+        }
+    });
+
+    shareSocket.onmessage = async function (event) {
+        let data = JSON.parse(event.data);
+        console.log("Received WebRTC message:", data);
+
+        if (data.offer) {
+            peerConnection = new RTCPeerConnection(config);
+            peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+
+            localStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
+            localVideo.srcObject = localStream;
+
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            shareSocket.send(JSON.stringify({ answer: answer }));
+        } else if (data.answer) {
+            peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+        } else if (data.candidate) {
+            peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+        }
+    };
     });
 
     function updateUnreadCounts(unreadCounts) {

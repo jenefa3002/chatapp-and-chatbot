@@ -71,10 +71,11 @@ with open("tokenizer.pkl", "rb") as file:
 with open("encoder.pkl", "rb") as file:
     encoder = pickle.load(file)
 
-with open("intents.json") as file:
+with open('intents.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
-GREETING_MESSAGE = "Hello! I'm your Ari. How can I assist you today?"
+
+GREETING_MESSAGE = "Hello!... I'm your Ari. How can I assist you today?"
 
 def predict_class(text):
     if not text.strip():
@@ -97,7 +98,7 @@ def chatbot_response(request):
             return JsonResponse({"response": GREETING_MESSAGE})
         tag = predict_class(user_message)
         if tag:
-            response_list = next((intent["responses"] for intent in data["intents"] if intent["tag"] == tag), [])
+            response_list = next((intent["response"] for intent in data["intents"] if intent["tag"] == tag), [])
             response = random.choice(response_list) if response_list else "I'm not sure I understand. Can you rephrase?"
         else:
             response = "Sorry, I couldn't understand that. Please ask again."
