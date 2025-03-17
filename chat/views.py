@@ -23,17 +23,17 @@ import numpy as np
 import tensorflow as tf
 from nltk.tokenize import word_tokenize
 
-# model = tf.keras.models.load_model("chatbot_model.h5")
-# with open("tokenizer.pkl", "rb") as file:
-#     tokenizer = pickle.load(file)
-# with open("encoder.pkl", "rb") as file:
-#     encoder = pickle.load(file)
-# with open("intents.json") as file:
-#     data = json.load(file)
-#
-# GREETING_MESSAGE = "Hello! I'm your Ari. How can I assist you today?"
+model = tf.keras.models.load_model("chatbot_model.h5")
+with open("tokenizer.pkl", "rb") as file:
+    tokenizer = pickle.load(file)
+with open("encoder.pkl", "rb") as file:
+    encoder = pickle.load(file)
+with open('intents.json', 'r', encoding='utf-8') as file:
+    data = json.load(file)
+
+GREETING_MESSAGE = "Hello!... I'm your Ari. How can I assist you today?"
+
 # def predict_class(text):
-#     """Predict the intent class for a given input text."""
 #     if not text.strip():
 #         return None
 #     tokens = word_tokenize(text.lower())
@@ -44,40 +44,10 @@ from nltk.tokenize import word_tokenize
 #     seq = pad_sequences(seq, maxlen=model.input_shape[1], padding="post")
 #     prediction = model.predict(seq)[0]
 #     predicted_index = np.argmax(prediction)
+#
 #     return encoder.classes_[predicted_index]
-#
-#
-# def chatbot_response(request):
-#     if request.method == "GET":
-#         user_message = request.GET.get("message", "").strip()
-#         if not user_message:
-#             return JsonResponse({"response": GREETING_MESSAGE})
-#         tag = predict_class(user_message)
-#         if tag:
-#             intent = next((intent for intent in data["intents"] if intent["tag"] == tag), None)
-#             if intent:
-#                 response = random.choice(intent["patterns"])
-#             else:
-#                 response = "I'm not sure I understand. Can you rephrase?"
-#         else:
-#             response = "Sorry, I couldn't understand that. Please ask again."
-#
-#         return JsonResponse({"response": response})
-#     return JsonResponse({"response": "Invalid request method. Use GET."})
-model = tf.keras.models.load_model("chatbot_model.h5")
 
-with open("tokenizer.pkl", "rb") as file:
-    tokenizer = pickle.load(file)
-with open("encoder.pkl", "rb") as file:
-    encoder = pickle.load(file)
-
-with open('intents.json', 'r', encoding='utf-8') as file:
-    data = json.load(file)
-
-
-GREETING_MESSAGE = "Hello!... I'm your Ari. How can I assist you today?"
-
-def predict_class(text):
+def predict_class(text, confidence_threshold=0.7):
     if not text.strip():
         return None
     tokens = word_tokenize(text.lower())
@@ -88,7 +58,9 @@ def predict_class(text):
     seq = pad_sequences(seq, maxlen=model.input_shape[1], padding="post")
     prediction = model.predict(seq)[0]
     predicted_index = np.argmax(prediction)
-
+    confidence = prediction[predicted_index]
+    if confidence < confidence_threshold:
+        return None
     return encoder.classes_[predicted_index]
 
 def chatbot_response(request):
@@ -104,6 +76,9 @@ def chatbot_response(request):
             response = "Sorry, I couldn't understand that. Please ask again."
         return JsonResponse({"response": response})
     return JsonResponse({"response": "Invalid request method. Use GET."})
+
+def chatbot(request):
+    return render(request, 'chatbot.html')
 
 @receiver(user_logged_in)
 def set_online(sender, request, user, **kwargs):
