@@ -1,0 +1,8 @@
+django
+channels
+redis
+daphne
+django-debug-toolbar
+tensorflow
+nltk
+scikit-learn
