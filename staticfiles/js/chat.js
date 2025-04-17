@@ -1,110 +1,4 @@
-{% load static %}
-<html lang="en">
-  <head>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="HandheldFriendly" content="true" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>ConnectSuite</title>
-    <link href="{% static 'css/chat.css' %}" rel="stylesheet"/>
-    <link
-      href="{% static 'vendor/fontawesome-free/css/all.min.css' %}"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="header-tag">
-      <header class="header">
-        <div class="logo">
-          <img src="{% static 'img/chat logo.png' %}" alt="logo" />
-        </div>
-        <div class="menu-toggle">
-          <i class="fas fa-bars"></i>
-        </div>
-        <h2>Connect Suite</h2>
-        <ul class="nav-menu">
-          <li><a href="/logout">Home</a></li>
-          <li><a href="/users">About</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="/chatbot">Ari</a></li>
-        </ul>
-
-        <div class="user-info">
-          <img
-            src="{% static 'img/ProfilePic.png' %}"
-            alt="Profile"
-            class="profile-pic"
-          />
-          {% csrf_token %}
-          <a href="{% url 'logout' %}" class="logout-button">
-            <img
-              src="https://img.icons8.com/?size=100&id=HqVUJDljsIvX&format=png&color=000000"
-              alt="Logout"
-            />
-          </a>
-        </div>
-      </header>
-    </div>
-    <div class="background-effects">
-      <button class="chat-button">
-        <img src="{% static 'img/image03.png' %}" alt="Chat" />
-        <span class="chat-notification" id="chat-notification">!</span>
-      </button>
-
-      <div class="chat-panel">
-        <div class="chat-header">
-          <h5>Chatty</h5>
-          <button class="close-chat">&times;</button>
-        </div>
-        <ul class="chat-list">
-          {% for user in users %}
-          <li data-username="{{ user.username }}" data-id="{{ user.id }}">
-            <div class="d-flex align-items-center">
-              <img
-                src="https://img.icons8.com/?size=100&id=61005&format=png&color=000000"
-                alt="User"
-              />
-              <span>{{ user.username }}</span>
-              <span
-                class="status-badge offline"
-                id="user-status-{{ user.id }}"
-              ></span>
-            </div>
-            <span
-              class="badge bg-danger notification-badge"
-              id="notification-badge-{{ user.username }}"
-              style="display: none"
-              >0</span
-            >
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="chat-content-panel"></div>
-    </div>
-    {% include 'chatbot.html' %}
-    <script>
-      class ScreenSharing {
+    class ScreenSharing {
         constructor() {
           this.peerConnections = {};
           this.localStreams = {};
@@ -190,7 +84,6 @@
             console.log(`WebSocket closed for ${chatPanelId}`);
             this.updateConnectionStatus(chatPanelId, "disconnected");
             this.cleanupSocket(chatPanelId);
-            initScreenSharing(chatPanelId, sender, recipient)
           };
 
           socket.onmessage = async (event) => {
@@ -245,7 +138,7 @@
             remoteVideo = document.createElement("video");
             remoteVideo.id = `remoteVideo-${chatPanelId}`;
             remoteVideo.autoplay = true;
-            remoteVideo.muted = true;
+            remoteVideo.muted = true; // Required for autoplay
             remoteVideo.playsInline = true;
             container.appendChild(remoteVideo);
           }
@@ -1196,6 +1089,3 @@
           }
         }
       });
-    </script>
-  </body>
-</html>

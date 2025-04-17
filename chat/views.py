@@ -1,3 +1,10 @@
+import os
+
+from .forms import LoginForm
+
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+os.environ['TF_CPP_MIN_VLOG_LEVEL'] = '2'
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -6,13 +13,13 @@ from django.dispatch import receiver
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout, user_logged_in, user_logged_out
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 from django.views import View
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from keras.src.utils import pad_sequences
-
-from .models import PrivateMessage, UserStatus
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import Feedback
+from .models import PrivateMessage
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -31,21 +38,56 @@ with open("encoder.pkl", "rb") as file:
 with open('intents.json', 'r', encoding='utf-8') as file:
     data = json.load(file)
 
-GREETING_MESSAGE = "Hello!... I'm your Ari. How can I assist you today?"
+@csrf_exempt
+def save_feedback(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)            
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            ip_address = x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')            
+            feedback_data = {
+                'message_id': data.get('message_id'),
+                'message': data.get('message'),
+                'feedback_type': data.get('feedback'),
+                'context': json.dumps(data.get('conversation_context', [])),
+                'ip_address': ip_address,
+            }
+            
+            if request.user.is_authenticated:
+                feedback_data['user'] = request.user
+            feedback = Feedback.objects.create(**feedback_data)
+            
+            return JsonResponse({'success': True, 'feedback_id': feedback.id})
+            
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-# def predict_class(text):
-#     if not text.strip():
-#         return None
-#     tokens = word_tokenize(text.lower())
-#     filtered_tokens = [word for word in tokens if word in tokenizer.word_index]
-#     if not filtered_tokens:
-#         return None
-#     seq = tokenizer.texts_to_sequences([filtered_tokens])
-#     seq = pad_sequences(seq, maxlen=model.input_shape[1], padding="post")
-#     prediction = model.predict(seq)[0]
-#     predicted_index = np.argmax(prediction)
-#
-#     return encoder.classes_[predicted_index]
+def get_alternative_response(request):
+    if request.method == 'GET':
+        original_message = request.GET.get('message', '')
+        original_message_id = request.GET.get('original_message_id', '')
+        original_response = request.GET.get('original_response', '')        
+        tag = predict_class(original_message, confidence_threshold=0.6)
+        if tag:
+            response_list = next((intent["response"] for intent in data["intents"] if intent["tag"] == tag), [])
+            if len(response_list) > 1:
+                alternative_responses = [r for r in response_list if r != original_response]
+                if alternative_responses:
+                    response = random.choice(alternative_responses)
+                else:
+                    response = f"Regarding '{original_message}', could you be more specific about what you're looking for?"
+            else:
+                response = f"About '{original_message}', I can also tell you more details if you'd like."
+        else:
+            response = f"I want to help with '{original_message}'. Could you rephrase or ask a different question?"
+        
+        return JsonResponse({
+            'response': response,
+            'original_message_id': original_message_id,
+            'is_alternative': True
+        })
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 def predict_class(text, confidence_threshold=0.7):
     if not text.strip():
@@ -67,14 +109,22 @@ def chatbot_response(request):
     if request.method == "GET":
         user_message = request.GET.get("message", "").strip()
         if not user_message:
-            return JsonResponse({"response": GREETING_MESSAGE})
+            return JsonResponse({"response": "🌟 Hello! How can I assist you today?"})        
         tag = predict_class(user_message)
         if tag:
             response_list = next((intent["response"] for intent in data["intents"] if intent["tag"] == tag), [])
-            response = random.choice(response_list) if response_list else "I'm not sure I understand. Can you rephrase?"
+            response = random.choice(response_list) if response_list else "🤔 I'm not sure I understand. Can you rephrase?"
         else:
-            response = "Sorry, I couldn't understand that. Please ask again."
-        return JsonResponse({"response": response})
+            feedback_triggers = ["feedback", "suggest", "complain", "report", "experience"]
+            if any(trigger in user_message.lower() for trigger in feedback_triggers):
+                response = "💬 Thank you for your feedback! Could you tell me more about your experience?"
+            else:
+                response = "🔍 I'm still learning. Could you provide more details?"
+        
+        return JsonResponse({
+            "response": response,
+            "original_response": response  
+        })
     return JsonResponse({"response": "Invalid request method. Use GET."})
 
 def chatbot(request):
@@ -107,17 +157,22 @@ class LoginRedirectView(LoginRequiredMixin, View):
     def get(self, request):
         return redirect('users')
 
+
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('users')
-        else:
-            return render(request, 'chat/login.html', {'error': 'Invalid Credentials'})
-    return render(request, 'chat/login.html')
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('users')
+            else:
+                form.add_error(None, 'Invalid Credentials')
+        return render(request, 'chat/login.html', {'form': form, 'error': 'Invalid Credentials or CAPTCHA'})
+    form = LoginForm()
+    return render(request, 'chat/login.html', {'form': form})
 
 def signup_view(request):
     if request.method == 'POST':

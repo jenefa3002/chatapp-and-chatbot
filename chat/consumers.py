@@ -192,7 +192,12 @@ class NotificationConsumer(AsyncJsonWebsocketConsumer):
 
 class ScreenShareConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_group_name = 'screenshare'
+        self.sender_username = self.scope['url_route']['kwargs']['sender_username']
+        self.recipient_username = self.scope['url_route']['kwargs']['recipient_username']
+        self.room_group_name = f'screenshare_{min(self.sender_username, self.recipient_username)}_{max(self.sender_username, self.recipient_username)}'
+
+        self.sender = await database_sync_to_async(User.objects.get)(username=self.sender_username)
+        self.recipient = await database_sync_to_async(User.objects.get)(username=self.recipient_username)
 
         await self.channel_layer.group_add(
             self.room_group_name,

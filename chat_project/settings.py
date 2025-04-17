@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'channels',
     'daphne',
     'chat',
+    'captcha',
     'debug_toolbar',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -189,3 +190,8 @@ LOGGING = {
     },
 }
 
+CAPTCHA_LENGTH = 4
+CAPTCHA_FONT_SIZE = 28
+CAPTCHA_IMAGE_SIZE = (130, 50)
+CAPTCHA_BACKGROUND_COLOR = '#ffffff'
+CAPTCHA_FOREGROUND_COLOR = '#001100'

@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LogoutView
+from captcha.views import captcha_refresh
 from django.urls import path
 from . import views
 from .views import users_view, LoginRedirectView, mark_as_read, load_messages, chatbot_response, custom_404_view, custom_500_view, custom_csrf_failure_view
@@ -8,6 +8,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('refresh-captcha/', captcha_refresh, name='captcha-refresh'),
+    path('get-response/', views.chatbot_response, name='chatbot_response'),
+    path('save-feedback/', views.save_feedback, name='save_feedback'),
+    path('get-alternative-response/', views.get_alternative_response, name='get_alternative_response'),
+    path('save-feedback/', views.save_feedback, name='save_feedback'),
     path('get-response/', chatbot_response, name="chatbot_response"),
     path('users/', views.user_list_view, name='user_list'),
     path('chat/<str:username>/', views.chat_view, name='chat'),

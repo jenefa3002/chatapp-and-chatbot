@@ -93,4 +93,22 @@ def notify_new_message(sender, instance, created, **kwargs):
             }
         )
 
+class Feedback(models.Model):
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True
+    )
+    message_id = models.CharField(max_length=255)
+    message = models.TextField()
+    feedback_type = models.CharField(max_length=20)
+    context = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
 
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Feedback on {self.created_at}"

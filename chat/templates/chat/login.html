@@ -64,6 +64,31 @@
             text-decoration: underline;
         }
 
+        .captcha-container {
+        display: flex;
+        align-items: center;
+        margin: 15px 0;
+        gap: 10px;  /* Space between elements */
+    }
+
+    .captcha-image {
+        width: 100%;  /* Make image responsive */
+        height: auto;  /* Maintain aspect ratio */
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .captcha-refresh {
+        cursor: pointer;
+        color: #4e73df;
+        font-size: 1.2rem;
+    }
+
+    .captcha-input {
+        width: 100%;
+        margin-top: 10px;
+    }
+
     </style>
 </head>
 <body>
@@ -75,20 +100,37 @@
             {% endfor %}
         {% endif %}
         <form class="user" method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_username">Username</label>
-                <input autocomplete="off" type="text" name="username" class="form-control" placeholder="Enter Username..." required>
-            </div>
-            <div class="form-group">
-                <label for="id_password">Password</label>
-                <input autocomplete="off" type="password" name="password" class="form-control" placeholder="Enter Password" required>
-            </div>
-            {% if error %}
-                <p class="text-danger text-center">{{ error }}</p>
-            {% endif %}
-            <button type="submit" class="btn btn-primary mt-3">Login</button>
-        </form>
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+    </div>
+    <div class="form-group">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+    </div>
+
+    <!-- CAPTCHA Section -->
+    <div class="form-group">
+        {{ form.captcha.label_tag }}
+        <div class="captcha-container">
+            {{ form.captcha }}
+            <i class="fas fa-sync-alt captcha-refresh" id="refresh-captcha"></i>
+        </div>
+    </div>
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary mt-3">Login</button>
+</form>
         <hr>
         <div class="text-center">
             <a class="small" href="{% url 'password_reset' %}">Forgot Password?</a>
@@ -97,10 +139,19 @@
             <a class="small" href="{% url 'signup' %}">Create an Account!</a>
         </div>
     </div>
-    {% include 'chatbot.html' %}
+{% include 'chatbot.html' %}
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
     <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+    <script>
+        $('#refresh-captcha').click(function(){
+            $.getJSON("/refresh-captcha/", function(result){
+                $('.captcha').attr('src', result.image_url);
+                $('#id_captcha_0').val(result.key);
+            });
+        });
+    </script>
 </body>
 </html>
